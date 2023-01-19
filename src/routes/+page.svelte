@@ -1,2 +1,23 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { onMount } from 'svelte';
+  import type { Node, NodesObj } from './types';
+  import Nodes from './comps/Nodes.svelte'
+  import Canvas from './comps/Canvas.svelte'
+  import BuiltBy from './comps/BuiltBy.svelte'
+  import nodesStore from './stores/nodes';
+
+  let nodes: Node[] = [];
+  let nodesObj: NodesObj;
+
+	onMount(() => {
+    nodesStore.subscribe(({nodes: nds, nodesObj: ndsObj}) => {
+      nodes = nds;
+      nodesObj = ndsObj;
+    });
+	});
+</script>
+
+<Nodes nodes={nodes} nodesObj={nodesObj} />
+<Canvas nodes={nodes} nodesObj={nodesObj} />
+
+<BuiltBy />
