@@ -60,16 +60,10 @@
 
     function renderBox(opts: RenderOpts, n: Node){
       if (n.type !== 'Box') throw Error('Node needs to be a Box');
-
       const node = n as NodeBox;
-
+      const x = (window.innerHeight / 2) + (nodeOrVal(opts, node.x) || 0);
+      const y = (window.innerWidth / 2) + (nodeOrVal(opts, node.y) || 0);
       ctx.fillStyle = 'red';
-
-      // var wobble = Math.sin(Date.now() / 250) * window.innerHeight / 50;
-
-      const x = nodeOrVal(opts, node.x) || 0;
-      const y = nodeOrVal(opts, node.y) || 0;
-
       ctx.fillRect(x, y, node.width, node.height);
     }
 
