@@ -61,8 +61,8 @@
 		function renderBox(opts: RenderOpts, n: Node) {
 			if (n.type !== 'Box') throw Error('Node needs to be a Box');
 			const node = n as NodeBox;
-			const x = window.innerHeight / 2 + (nodeOrVal(opts, node.x) || 0);
-			const y = window.innerWidth / 2 + (nodeOrVal(opts, node.y) || 0);
+			const x = window.innerWidth / 2 + (nodeOrVal(opts, node.x) || 0);
+			const y = window.innerHeight / 2 + (nodeOrVal(opts, node.y) || 0);
 			ctx.fillStyle = 'red';
 			ctx.fillRect(x, y, node.width, node.height);
 		}
