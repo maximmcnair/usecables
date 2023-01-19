@@ -1,16 +1,16 @@
 <script context="module">
   // import  DragDropTouch  from 'svelte-drag-drop-touch'
-  import { asDraggable } from 'svelte-drag-and-drop-actions'
+  import { asDraggable } from 'svelte-drag-and-drop-actions';
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import type { Node, NodeType, NodesObj } from '../types';
   import nodesStore, { nodeUpdate } from '../stores/nodes';
   import NodeConnector from './NodeConnector.svelte';
   import NodeEditorSelect from './NodeEditorSelect.svelte';
   import NodeEditorRange from './NodeEditorRange.svelte';
-	import NodeEditorNumber from './NodeEditorNumber.svelte';
+  import NodeEditorNumber from './NodeEditorNumber.svelte';
 
   export let node: Node;
 
@@ -18,33 +18,33 @@
     return {
       x: node.editorX,
       y: node.editorY
-    } 
+    };
   }
-  function onDragMove(x: number, y: number) { 
+  function onDragMove(x: number, y: number) {
     nodeUpdate(node.id, {
       editorX: x,
-      editorY: y,
-    })
+      editorY: y
+    });
   }
-  function onDragEnd(x: number, y: number) { 
+  function onDragEnd(x: number, y: number) {
     // TODO save on a server
     nodeUpdate(node.id, {
       editorX: x,
-      editorY: y,
-    })
+      editorY: y
+    });
   }
 
   // $: console.log(node.id, node.editorX, node.editorY);
 
-  const nodesWithOutput: NodeType[] = ['Wave']
+  const nodesWithOutput: NodeType[] = ['Wave'];
 
   let nodesObj: NodesObj = {};
 
-	onMount(() => {
-    nodesStore.subscribe(({nodesObj: ndsObj}) => {
+  onMount(() => {
+    nodesStore.subscribe(({ nodesObj: ndsObj }) => {
       nodesObj = ndsObj;
     });
-	});
+  });
 
   function getNode(nodeId: string): Node {
     const node = nodesObj[nodeId];
@@ -72,15 +72,15 @@
     const possibleConnectors = ['x', 'y'];
 
     const cons: NodeConnector[] = [];
-    for (let con of possibleConnectors){
-      if (typeof node[con] === 'string'){
+    for (let con of possibleConnectors) {
+      if (typeof node[con] === 'string') {
         const originNodeId: string = node[con];
         const originNode: Node = nodesObj[originNodeId];
         cons.push({
           type: node.type,
           prop: con,
           origin: originNode,
-          target: node,
+          target: node
         });
       }
     }
@@ -94,16 +94,16 @@
   // number: 20 + 15 = 35
   const boxPropConnectors: Record<string, number> = {
     // (header + props padding)
-    'height': (40 + 20) + 8,
-    'width': 95 + 8,
-    'x': 130 + 8,
-    'y': 165 + 8,
+    height: 40 + 20 + 8,
+    width: 95 + 8,
+    x: 130 + 8,
+    y: 165 + 8
   };
 </script>
 
 {#each connectors as connector}
   {#if connector.origin && connector.target}
-    <NodeConnector 
+    <NodeConnector
       x1={connector.origin?.editorX + 220}
       y1={connector.origin?.editorY + 22}
       x2={connector.target?.editorX + 0}
@@ -112,19 +112,24 @@
   {/if}
 {/each}
 
-<div class="node" 
-  use:asDraggable={{ 
-    onlyFrom:'.node-header',
-    onDragStart, onDragMove, onDragEnd }}
-  style:top={`${node.editorY}px`} style:left={`${node.editorX}px`}>
-
-  <header class="node-header"
-  >
+<div
+  class="node"
+  use:asDraggable={{
+    onlyFrom: '.node-header',
+    onDragStart,
+    onDragMove,
+    onDragEnd
+  }}
+  style:top={`${node.editorY}px`}
+  style:left={`${node.editorX}px`}
+>
+  <header class="node-header">
     <span>{node.name}</span>
     {#if false}
-      <input 
-        value={node.name} 
-        on:change={(evt) => nodeUpdate(node.id, {name: evt.currentTarget.value})} 
+      <input
+        value={node.name}
+        on:change={(evt) =>
+          nodeUpdate(node.id, { name: evt.currentTarget.value })}
       />
     {/if}
   </header>
@@ -137,46 +142,46 @@
     {#if node.type === 'Box'}
       <NodeEditorNumber
         title="Height"
-        value={node.height} 
-        onUpdate={(val) => nodeUpdate(node.id, {height: val})} 
+        value={node.height}
+        onUpdate={(val) => nodeUpdate(node.id, { height: val })}
       />
       <NodeEditorNumber
         title="Width"
-        value={node.width} 
-        onUpdate={(val) => nodeUpdate(node.id, {width: val})} 
+        value={node.width}
+        onUpdate={(val) => nodeUpdate(node.id, { width: val })}
       />
       <NodeEditorNumber
         title="x"
-        value={node.x} 
-        onUpdate={(val) => nodeUpdate(node.id, {x: val})} 
+        value={node.x}
+        onUpdate={(val) => nodeUpdate(node.id, { x: val })}
       />
       <NodeEditorNumber
         title="y"
-        value={node.y} 
-        onUpdate={(val) => nodeUpdate(node.id, {y: val})} 
+        value={node.y}
+        onUpdate={(val) => nodeUpdate(node.id, { y: val })}
       />
     {/if}
 
     {#if node.type === 'Wave'}
-      <NodeEditorSelect 
+      <NodeEditorSelect
         title="Waveform"
         value={node.waveform}
         options={['sin', 'cos', 'tan']}
-        onUpdate={(val) => nodeUpdate(node.id, {waveform: val})} 
+        onUpdate={(val) => nodeUpdate(node.id, { waveform: val })}
       />
       <NodeEditorRange
         title="Amplitude"
         value={node.amplitude}
         min={1}
         max={600}
-        onUpdate={(val) => nodeUpdate(node.id, {amplitude: val})} 
+        onUpdate={(val) => nodeUpdate(node.id, { amplitude: val })}
       />
       <NodeEditorRange
         title="Frequency"
         value={node.frequency}
         min={1}
         max={600}
-        onUpdate={(val) => nodeUpdate(node.id, {frequency: val})} 
+        onUpdate={(val) => nodeUpdate(node.id, { frequency: val })}
       />
     {/if}
   </section>
@@ -184,9 +189,13 @@
 
 <style>
   :global([draggable]) {
-    -webkit-touch-callout:none;
-    -ms-touch-action:none; touch-action:none;
-    -moz-user-select:none; -webkit-user-select:none; -ms-user-select:none; user-select:none;
+    -webkit-touch-callout: none;
+    -ms-touch-action: none;
+    touch-action: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   .node {
@@ -197,7 +206,7 @@
     /* border: 1px solid var(--color-grey); */
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: -2px 4px 13px 0px rgba(0,0,0,0.75);
+    box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.75);
   }
 
   .node-header {

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import './styles.css';
-  import BuiltBy from './comps/BuiltBy.svelte'
+  import './styles.css';
+  import BuiltBy from './comps/BuiltBy.svelte';
 </script>
 
 <div>
   <main>
-		<slot />
+    <slot />
   </main>
 
   <BuiltBy />

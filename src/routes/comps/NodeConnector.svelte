@@ -13,7 +13,7 @@
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  // set height&width of canvas 
+  // set height&width of canvas
   window.addEventListener('resize', onResize);
 
   function onResize() {
@@ -24,19 +24,19 @@
   onResize();
 </script>
 
-<svg viewBox={`0 0 ${width} ${height}`} class="node-connector"> 
-  <line {x1} {y1} {x2} {y2} stroke="var(--color-gold)" stroke-width=3 />
+<svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
+  <line {x1} {y1} {x2} {y2} stroke="var(--color-gold)" stroke-width="3" />
 </svg>
 
 <style>
-  .node-connector{
+  .node-connector {
     position: absolute;
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    overflow: visible; 
-    z-index: 999; 
+    overflow: visible;
+    z-index: 999;
     pointer-events: none;
   }
 </style>

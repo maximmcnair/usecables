@@ -7,10 +7,7 @@
 
 <label>
   <span>{title}</span>
-  <select 
-    value={value}
-    on:change={(evt) => onUpdate(evt.currentTarget.value)}
-  >
+  <select {value} on:change={(evt) => onUpdate(evt.currentTarget.value)}>
     {#each options as option}
       <option value={option}>{option}</option>
     {/each}

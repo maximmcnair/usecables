@@ -11,12 +11,12 @@
 
 <label>
   <span>{title}</span>
-  {#if typeof value === 'string'} 
+  {#if typeof value === 'string'}
     <span class="value">{value}</span>
     <div class="connector" />
   {:else}
-    <input 
-      value={value} 
+    <input
+      {value}
       type="number"
       on:change={(evt) => onUpdate(Number(evt.currentTarget.value))}
     />
@@ -48,9 +48,9 @@
     background: transparent;
     font-size: var(--typesize-small);
   }
-  input[type=number]::-webkit-inner-spin-button, 
-  input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
   }
   .connector {
     position: absolute;

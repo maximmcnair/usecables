@@ -8,7 +8,8 @@ interface NodeStore {
 
 const defaultState: NodeStore = {
   nodes: [
-    { id: 'box-1',
+    {
+      id: 'box-1',
       type: 'Box',
       name: 'Box',
       x: 'wave-1',
@@ -17,9 +18,10 @@ const defaultState: NodeStore = {
       height: 100,
       color: 'red',
       editorX: 464,
-      editorY: 197,
+      editorY: 197
     },
-    { id: 'wave-1',
+    {
+      id: 'wave-1',
       type: 'Wave',
       name: 'Wave',
       waveform: 'sin',
@@ -29,9 +31,10 @@ const defaultState: NodeStore = {
       offset: 0,
       phase: 0,
       editorX: 109,
-      editorY: 168,
+      editorY: 168
     },
-    { id: 'wave-2',
+    {
+      id: 'wave-2',
       type: 'Wave',
       name: 'Wave',
       waveform: 'sin',
@@ -41,8 +44,8 @@ const defaultState: NodeStore = {
       offset: 0,
       phase: 0,
       editorX: 138,
-      editorY: 547,
-    },
+      editorY: 547
+    }
     // { id: 'box-2',
     //   type: 'Box',
     //   name: 'box 2',
@@ -62,7 +65,7 @@ function createNodesObj(nds: Node[]): NodesObj {
   return nds.reduce((acc, val) => {
     acc[val.id] = val;
     return acc;
-  }, {} as NodesObj)
+  }, {} as NodesObj);
 }
 
 defaultState.nodesObj = createNodesObj(defaultState.nodes);
@@ -71,22 +74,21 @@ const nodesStore = writable<NodeStore>(defaultState);
 
 export default nodesStore;
 
-export function nodeUpdate(nodeId: string, updatedNode: Partial<Node>){
+export function nodeUpdate(nodeId: string, updatedNode: Partial<Node>) {
   nodesStore.update(({ nodes }) => {
-    const updatedNodes: Node[] = nodes.map(n => {
+    const updatedNodes: Node[] = nodes.map((n) => {
       if (n.id === nodeId) {
         return {
           ...n,
-          ...updatedNode as Node,
-        }
+          ...(updatedNode as Node)
+        };
       }
       return n;
     });
 
     return {
       nodes: updatedNodes,
-      nodesObj: createNodesObj(updatedNodes),
-    }
+      nodesObj: createNodesObj(updatedNodes)
+    };
   });
-} 
-
+}

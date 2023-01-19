@@ -9,7 +9,7 @@
 <section class="nodes">
   <section class="nodes-editor">
     {#each nodes as node}
-      <NodeEditor node={node} />
+      <NodeEditor {node} />
     {/each}
   </section>
 </section>

@@ -8,11 +8,11 @@
 
 <label>
   <span>{title}</span>
-  <input 
-    value={value} 
+  <input
+    {value}
     type="range"
-    min={min}
-    max={max}
+    {min}
+    {max}
     on:change={(evt) => onUpdate(evt.currentTarget.value)}
   />
 </label>
