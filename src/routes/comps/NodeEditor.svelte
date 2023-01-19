@@ -8,6 +8,9 @@
   import type { Node, NodeType, NodesObj } from '../types';
   import nodesStore, { nodeUpdate } from '../stores/nodes';
   import NodeConnector from './NodeConnector.svelte';
+  import NodeEditorSelect from './NodeEditorSelect.svelte';
+  import NodeEditorRange from './NodeEditorRange.svelte';
+	import NodeEditorNumber from './NodeEditorNumber.svelte';
 
   export let node: Node;
 
@@ -56,6 +59,7 @@
   // $: console.log(node, node.x, nodesObj, nodesObj[node.x]);
 
   interface NodeConnector {
+    type: NodeType;
     prop: string;
     origin: Node;
     target: Node;
@@ -73,6 +77,7 @@
         const originNodeId: string = node[con];
         const originNode: Node = nodesObj[originNodeId];
         cons.push({
+          type: node.type,
           prop: con,
           origin: originNode,
           target: node,
@@ -82,16 +87,27 @@
     connectors = cons;
   }
 
-  $: console.log('c', connectors)
+  // $: console.log('c', connectors)
+
+  // select: 70 + 15 = 85
+  // range: 55 + 15 = 70
+  // number: 20 + 15 = 35
+  const boxPropConnectors: Record<string, number> = {
+    // (header + props padding)
+    'height': (40 + 20) + 8,
+    'width': 95 + 8,
+    'x': 130 + 8,
+    'y': 165 + 8,
+  };
 </script>
 
 {#each connectors as connector}
   {#if connector.origin && connector.target}
     <NodeConnector 
-      x1={connector.origin?.editorX + 204}
-      y1={connector.origin?.editorY + 26}
-      x2={connector.target?.editorX + 10}
-      y2={connector.target?.editorY + 200}
+      x1={connector.origin?.editorX + 220}
+      y1={connector.origin?.editorY + 22}
+      x2={connector.target?.editorX + 0}
+      y2={connector.target?.editorY + boxPropConnectors[connector.prop]}
     />
   {/if}
 {/each}
@@ -119,97 +135,49 @@
 
   <section class="node-props">
     {#if node.type === 'Box'}
-      <label>
-        <span>Height</span>
-        <input 
-          value={node.height} 
-          type="number"
-          on:change={(evt) => nodeUpdate(node.id, {height: evt.currentTarget.value})} 
-        />
-      </label>
-      <label>
-        <span>Width</span>
-        <input 
-          value={node.width} 
-          type="number"
-          on:change={(evt) => nodeUpdate(node.id, {width: evt.currentTarget.value})} 
-        />
-      </label>
-      <label>
-        <span>x</span>
-        {#if typeof node.x === 'string'} 
-          <span>{node.x}</span>
-        {:else}
-          <input 
-            value={node.x} 
-            type="number"
-            on:change={(evt) => nodeUpdate(node.id, {x: evt.currentTarget.value})} 
-          />
-        {/if}
-      </label>
-      <label>
-        <span>y</span>
-        {#if typeof node.y === 'string'} 
-          <span>{node.y}</span>
-        {:else}
-          <input 
-            value={node.y} 
-            type="number"
-            on:change={(evt) => nodeUpdate(node.id, {y: evt.currentTarget.value})} 
-          />
-        {/if}
-      </label>
+      <NodeEditorNumber
+        title="Height"
+        value={node.height} 
+        onUpdate={(val) => nodeUpdate(node.id, {height: val})} 
+      />
+      <NodeEditorNumber
+        title="Width"
+        value={node.width} 
+        onUpdate={(val) => nodeUpdate(node.id, {width: val})} 
+      />
+      <NodeEditorNumber
+        title="x"
+        value={node.x} 
+        onUpdate={(val) => nodeUpdate(node.id, {x: val})} 
+      />
+      <NodeEditorNumber
+        title="y"
+        value={node.y} 
+        onUpdate={(val) => nodeUpdate(node.id, {y: val})} 
+      />
     {/if}
 
     {#if node.type === 'Wave'}
-      <label>
-        <span>Waveform</span>
-        <select value={node.waveform}
-          on:change={(evt) => nodeUpdate(node.id, {waveform: evt.currentTarget.value})} 
-        >
-          <option value="sin">sin</option>
-          <option value="cos">cos</option>
-          <option value="tan">tan</option>
-        </select>
-      </label>
-      <label>
-        <span>Amplitude</span>
-        <input 
-          value={node.amplitude} 
-          type="range"
-          min=1
-          max=600
-          on:change={(evt) => nodeUpdate(node.id, {amplitude: evt.currentTarget.value})} 
-        />
-      </label>
-      <label>
-        <span>Frequency</span>
-        <input 
-          value={node.frequency} 
-          type="range"
-          min=1
-          max=600
-          on:change={(evt) => nodeUpdate(node.id, {frequency: evt.currentTarget.value})} 
-        />
-      </label>
-      {#if false}
-        <label>
-          <span>Offset</span>
-          <input 
-            value={node.offset} 
-            type="number"
-            on:change={(evt) => nodeUpdate(node.id, {offset: evt.currentTarget.value})} 
-          />
-        </label>
-        <label>
-          <span>Phase</span>
-          <input 
-            value={node.phase} 
-            type="number"
-            on:change={(evt) => nodeUpdate(node.id, {phase: evt.currentTarget.value})} 
-          />
-        </label>
-      {/if}
+      <NodeEditorSelect 
+        title="Waveform"
+        value={node.waveform}
+        options={['sin', 'cos', 'tan']}
+        onUpdate={(val) => nodeUpdate(node.id, {waveform: val})} 
+      />
+      <NodeEditorRange
+        title="Amplitude"
+        value={node.amplitude}
+        min={1}
+        max={600}
+        onUpdate={(val) => nodeUpdate(node.id, {amplitude: val})} 
+      />
+      <NodeEditorRange
+        title="Frequency"
+        value={node.frequency}
+        min={1}
+        max={600}
+        onUpdate={(val) => nodeUpdate(node.id, {frequency: val})} 
+      />
     {/if}
   </section>
 </div>
@@ -221,25 +189,19 @@
     -moz-user-select:none; -webkit-user-select:none; -ms-user-select:none; user-select:none;
   }
 
-  :root{
-    --color-white: #ffffff;
-    --color-grey: #232326;
-    --color-grey-dark: #171719;
-  }
-
   .node {
-    width: 200px;
+    width: 220px;
     position: absolute;
     cursor: move;
     background-color: var(--color-grey-dark);
-    border: 1px solid var(--color-grey);
+    /* border: 1px solid var(--color-grey); */
     margin-bottom: 10px;
     border-radius: 10px;
   }
 
   .node-header {
-    background-color: var(--color-grey);
-    margin: -1px -1px 0px 0px;
+    background-color: var(--color-grey-darker);
+    /* border-bottom: 1px solid var(--color-grey); */
     border-radius: 10px 10px 0px 0px;
     height: 40px;
   }
@@ -261,29 +223,14 @@
   .node-props {
     display: flex;
     flex-direction: column;
-  }
-
-  label span {
-    display: block;
-    color: white;
-    padding: 10px 10px;
-    font-size: var(--typesize-small);
-  }
-
-  input {
-    background: transparent;
-    font-size: var(--typesize-small);
-    padding: 10px;
-    color: var(--color-white);
-    border: 0px;
-    outline: none;
+    padding: 15px;
   }
 
   .output-connector {
     position: absolute;
     /* updates to top and left must be updated in connector js logic */
     top: 13px;
-    left: 190px;
+    left: 210px;
     display: block;
     background-color: var(--color-gold);
     width: 15px;
