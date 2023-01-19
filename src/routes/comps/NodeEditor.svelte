@@ -88,8 +88,8 @@
 {#each connectors as connector}
   {#if connector.origin && connector.target}
     <NodeConnector 
-      x1={connector.origin?.editorX + 206}
-      y1={connector.origin?.editorY + 47}
+      x1={connector.origin?.editorX + 204}
+      y1={connector.origin?.editorY + 26}
       x2={connector.target?.editorX + 10}
       y2={connector.target?.editorY + 200}
     />
@@ -97,7 +97,9 @@
 {/each}
 
 <div class="node" 
-  use:asDraggable={{ onDragStart, onDragMove, onDragEnd }}
+  use:asDraggable={{ 
+    onlyFrom:'.node-header',
+    onDragStart, onDragMove, onDragEnd }}
   style:top={`${node.editorY}px`} style:left={`${node.editorX}px`}>
 
   <header class="node-header"
@@ -280,12 +282,12 @@
   .output-connector {
     position: absolute;
     /* updates to top and left must be updated in connector js logic */
-    top: 30px;
+    top: 13px;
     left: 190px;
     display: block;
-    background-color: var(--color-white);
-    width: 20px;
-    height: 20px;
+    background-color: var(--color-gold);
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
   }
 </style>

@@ -16,5 +16,13 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Cables</title>
+	<meta
+		name="description"
+		content=""
+	/>
+</svelte:head>
+
 <Nodes nodes={nodes} nodesObj={nodesObj} />
 <Canvas nodes={nodes} nodesObj={nodesObj} />

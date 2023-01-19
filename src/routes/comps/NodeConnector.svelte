@@ -25,7 +25,7 @@
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`} class="node-connector"> 
-  <line {x1} {y1} {x2} {y2} stroke="yellow" stroke-width=3 />
+  <line {x1} {y1} {x2} {y2} stroke="var(--color-gold)" stroke-width=3 />
 </svg>
 
 <style>

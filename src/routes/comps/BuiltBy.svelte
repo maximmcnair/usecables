@@ -1,4 +1,4 @@
-<a href="https://maximmcnair.com/" class="built-by">
+<a href="https://maximmcnair.com/" target="_blank" class="built-by">
   A prototype by <span>Maxim McNair</span>
 </a>
 
@@ -11,7 +11,7 @@
     display: block;
     background: rgba(13, 13, 13, 0.002);
     backdrop-filter: blur(10px);
-    border-radius: 3px;
+    border-radius: 10px;
     color: var(--color-grey-light);
     z-index: 9999;
     padding: 20px;
@@ -22,6 +22,7 @@
 
   .built-by span {
     color: #f7f7f7d9;
+    margin-left: 3px;
     transition: all 0.3s;
   }
 
