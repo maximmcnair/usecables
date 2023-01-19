@@ -197,6 +197,7 @@
     /* border: 1px solid var(--color-grey); */
     margin-bottom: 10px;
     border-radius: 10px;
+    box-shadow: -2px 4px 13px 0px rgba(0,0,0,0.75);
   }
 
   .node-header {

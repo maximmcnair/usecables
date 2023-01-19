@@ -26,6 +26,12 @@
     width: 100%;
     position: relative;
   }
+
+  option {
+    background-color: var(--color-grey-dark);
+    color: var(--color-white);
+    padding: 5px 0px;
+  }
   span {
     display: block;
     color: white;
