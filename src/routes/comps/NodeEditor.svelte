@@ -237,6 +237,7 @@
 
   .node-header {
     background-color: var(--color-grey);
+    margin: -1px -1px 0px 0px;
     border-radius: 10px 10px 0px 0px;
     height: 40px;
   }
@@ -246,10 +247,11 @@
     display: block;
     color: var(--color-white);
     text-align: center;
+    font-size: var(--typesize-small);
   }
 
   .node-header span {
-    font-size: 20px;
+    font-size: var(--typesize-small);
     padding-top: 9px;
     color: var(--color-white);
   }
@@ -263,10 +265,12 @@
     display: block;
     color: white;
     padding: 10px 10px;
+    font-size: var(--typesize-small);
   }
 
   input {
     background: transparent;
+    font-size: var(--typesize-small);
     padding: 10px;
     color: var(--color-white);
     border: 0px;

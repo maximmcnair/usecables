@@ -12,7 +12,7 @@
     background: rgba(13, 13, 13, 0.002);
     backdrop-filter: blur(10px);
     border-radius: 3px;
-    color: var(--color-grey);
+    color: var(--color-grey-light);
     z-index: 9999;
     padding: 20px;
     transition: all 0.3s;

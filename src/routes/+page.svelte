@@ -3,7 +3,6 @@
   import type { Node, NodesObj } from './types';
   import Nodes from './comps/Nodes.svelte'
   import Canvas from './comps/Canvas.svelte'
-  import BuiltBy from './comps/BuiltBy.svelte'
   import nodesStore from './stores/nodes';
 
   let nodes: Node[] = [];
@@ -19,5 +18,3 @@
 
 <Nodes nodes={nodes} nodesObj={nodesObj} />
 <Canvas nodes={nodes} nodesObj={nodesObj} />
-
-<BuiltBy />
