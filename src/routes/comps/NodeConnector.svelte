@@ -1,15 +1,10 @@
-<script context="module">
-  // import  DragDropTouch  from 'svelte-drag-drop-touch'
-  // import { asDraggable } from 'svelte-drag-and-drop-actions'
-</script>
-
 <script lang="ts">
   export let x1: number;
   export let y1: number;
   export let x2: number;
   export let y2: number;
 
-  // TODO refactor resize logic into a store
+  // todo refactor resize logic into a store
   let width = window.innerWidth;
   let height = window.innerHeight;
 

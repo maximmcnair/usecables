@@ -8,7 +8,6 @@ interface NodeStore {
 }
 
 const waveSin1Id = uid();
-const waveSin2Id = uid();
 
 const defaultState: NodeStore = {
   nodes: [
@@ -16,9 +15,8 @@ const defaultState: NodeStore = {
       id: uid(),
       type: 'Box',
       name: 'Box',
+      // x: 0,
       x: waveSin1Id,
-      // x: 10,
-      // y: 'wave-2',
       y: 10,
       width: 100,
       height: 100,
@@ -64,16 +62,16 @@ const defaultState: NodeStore = {
       editorX: 865,
       editorY: 464,
     },
-    { id: uid(),
-      type: 'Circle',
-      name: 'Circle',
-      x: 200,
-      y: 200,
-      radius: 200,
-      color: [10, 147, 150],
-      editorX: 865,
-      editorY: 164,
-    },
+    // { id: uid(),
+    //   type: 'Circle',
+    //   name: 'Circle',
+    //   x: 200,
+    //   y: 200,
+    //   radius: 200,
+    //   color: [10, 147, 150],
+    //   editorX: 865,
+    //   editorY: 164,
+    // },
   ],
   nodesObj: {}
 };

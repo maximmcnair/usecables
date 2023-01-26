@@ -90,9 +90,8 @@ void main() {
   float ${node.id}Height = ${node.height}.0;
   vec3 ${node.id}Color = ${colorToVec3(node.color)};
   vec2 ${node.id}XY = vec2(uv.x, uv.y);
-  // ${node.id}XY.x += ${node.x}.0;
   ${node.id}XY.x += ${nodeOrVal(node.x)};
-  ${node.id}XY.y += ${node.y}.0;
+  ${node.id}XY.y += ${nodeOrVal(node.y)};
   vec4 layer${node.id} = rectangle(${node.id}XY, center, ${node.id}Width, ${
           node.id
         }Height, ${node.id}Color);
