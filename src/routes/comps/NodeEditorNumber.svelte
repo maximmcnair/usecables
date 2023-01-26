@@ -3,17 +3,13 @@
   export let value: string | number;
   export let onUpdate: any;
 
-  // export let min: number | undefined;
-  // export let max: number | undefined;
-  // min={min}
-  // max={max}
+    // <span class="value">{value}</span>
 </script>
 
 <label>
   <span>{title}</span>
   {#if typeof value === 'string'}
-    <span class="value">{value}</span>
-    <div class="connector" />
+    <div class="connector" on:click={onUpdate(0)} />
   {:else}
     <input
       {value}
@@ -54,12 +50,12 @@
   }
   .connector {
     position: absolute;
-    top: 8px;
+    top: 6px;
     left: -23px;
     display: block;
     background-color: var(--color-gold);
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
   }
 </style>

@@ -1,6 +1,7 @@
 export type NodeTypeBox = 'Box';
 export type NodeTypeWave = 'Wave';
-export type NodeType = NodeTypeBox | NodeTypeWave;
+export type NodeTypeCircle = 'Circle';
+export type NodeType = NodeTypeBox | NodeTypeWave | NodeTypeCircle;
 
 export interface NodeRoot {
   id: string;
@@ -13,15 +14,23 @@ export interface NodeRoot {
 
 export type NodeId = string;
 
+export type Color = [number, number, number];
+
 export interface NodeBox extends NodeRoot {
   type: NodeTypeBox;
   x: number | NodeId;
   y: number | NodeId;
   width: number;
   height: number;
-  // rotation: number;
-  color: string;
-  // image: string;
+  color: Color;
+}
+
+export interface NodeCircle extends NodeRoot {
+  type: NodeTypeCircle;
+  x: number | NodeId;
+  y: number | NodeId;
+  radius: number;
+  color: Color;
 }
 
 export interface NodeWave extends NodeRoot {
@@ -33,6 +42,13 @@ export interface NodeWave extends NodeRoot {
   phase: number;
 }
 
-export type Node = NodeBox | NodeWave;
+export type Node = NodeBox | NodeWave | NodeCircle;
 
 export type NodesObj = Record<string, Node>;
+
+export interface RenderOpts {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  frame: number;
+}
+

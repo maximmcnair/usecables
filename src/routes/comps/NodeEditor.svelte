@@ -1,5 +1,4 @@
 <script context="module">
-  // import  DragDropTouch  from 'svelte-drag-drop-touch'
   import { asDraggable } from 'svelte-drag-and-drop-actions';
 </script>
 
@@ -7,7 +6,9 @@
   import { onMount } from 'svelte';
   import type { Node, NodeType, NodesObj } from '../types';
   import nodesStore, { nodeUpdate } from '../stores/nodes';
+  import ConnectorOrigin from './ConnectorOrigin.svelte';
   import NodeConnector from './NodeConnector.svelte';
+  import NodeDropper from './NodeDropper.svelte';
   import NodeEditorSelect from './NodeEditorSelect.svelte';
   import NodeEditorRange from './NodeEditorRange.svelte';
   import NodeEditorNumber from './NodeEditorNumber.svelte';
@@ -34,10 +35,6 @@
     });
   }
 
-  // $: console.log(node.id, node.editorX, node.editorY);
-
-  const nodesWithOutput: NodeType[] = ['Wave'];
-
   let nodesObj: NodesObj = {};
 
   onMount(() => {
@@ -51,13 +48,6 @@
     return node;
   }
 
-  // $: if (node.id === 'box-1' && node){
-  //   console.log('*', node.x);
-  //   console.log(getNode(node.x))
-  // }
-
-  // $: console.log(node, node.x, nodesObj, nodesObj[node.x]);
-
   interface NodeConnector {
     type: NodeType;
     prop: string;
@@ -65,26 +55,41 @@
     target: Node;
   }
 
+  interface NodeDropper {
+    type: NodeType;
+    prop: string;
+    node: Node;
+  }
+
   let connectors: NodeConnector[] = [];
+  let droppers: NodeDropper[] = [];
   // build connectors from all props that are strings
   // TODO there is probably a better way to do this
   $: {
     const possibleConnectors = ['x', 'y'];
 
     const cons: NodeConnector[] = [];
-    for (let con of possibleConnectors) {
-      if (typeof node[con] === 'string') {
-        const originNodeId: string = node[con];
+    const drops: NodeDropper[] = [];
+    for (let prop of possibleConnectors) {
+      if (typeof node[prop] === 'string') {
+        const originNodeId: string = node[prop];
         const originNode: Node = nodesObj[originNodeId];
         cons.push({
           type: node.type,
-          prop: con,
+          prop,
           origin: originNode,
           target: node
+        });
+      } else {
+        drops.push({
+          type: node.type,
+          prop,
+          node
         });
       }
     }
     connectors = cons;
+    droppers = drops;
   }
 
   // $: console.log('c', connectors)
@@ -112,6 +117,21 @@
   {/if}
 {/each}
 
+{#each droppers as drop}
+  {#if node.type === 'Box'}
+    <NodeDropper
+      prop={drop.prop}
+      x={drop.node.editorX + 0}
+      y={drop.node.editorY + boxPropConnectors[drop.prop]}
+      createConnection={(val) => nodeUpdate(node.id, { [drop.prop]: val })}
+    />
+  {/if}
+{/each}
+
+{#if node.type === 'Wave'}
+  <ConnectorOrigin x={node.editorX + 220} y={node.editorY + 20} {node} />
+{/if}
+
 <div
   class="node"
   use:asDraggable={{
@@ -125,18 +145,7 @@
 >
   <header class="node-header">
     <span>{node.name}</span>
-    {#if false}
-      <input
-        value={node.name}
-        on:change={(evt) =>
-          nodeUpdate(node.id, { name: evt.currentTarget.value })}
-      />
-    {/if}
   </header>
-
-  {#if nodesWithOutput.includes(node.type)}
-    <div class="output-connector" />
-  {/if}
 
   <section class="node-props">
     {#if node.type === 'Box'}
@@ -149,6 +158,24 @@
         title="Width"
         value={node.width}
         onUpdate={(val) => nodeUpdate(node.id, { width: val })}
+      />
+      <NodeEditorNumber
+        title="x"
+        value={node.x}
+        onUpdate={(val) => nodeUpdate(node.id, { x: val })}
+      />
+      <NodeEditorNumber
+        title="y"
+        value={node.y}
+        onUpdate={(val) => nodeUpdate(node.id, { y: val })}
+      />
+    {/if}
+
+    {#if node.type === 'Circle'}
+      <NodeEditorNumber
+        title="Radius"
+        value={node.radius}
+        onUpdate={(val) => nodeUpdate(node.id, { radius: val })}
       />
       <NodeEditorNumber
         title="x"
@@ -180,7 +207,7 @@
         title="Frequency"
         value={node.frequency}
         min={1}
-        max={600}
+        max={10}
         onUpdate={(val) => nodeUpdate(node.id, { frequency: val })}
       />
     {/if}
@@ -202,16 +229,14 @@
     width: 220px;
     position: absolute;
     cursor: move;
-    background-color: var(--color-grey-dark);
-    /* border: 1px solid var(--color-grey); */
+    background-color: rgb(29 31 32 / 77%);
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.4);
   }
 
   .node-header {
-    background-color: var(--color-grey-darker);
-    /* border-bottom: 1px solid var(--color-grey); */
+    background-color: rgb(19 21 21 / 34%);
     border-radius: 10px 10px 0px 0px;
     height: 40px;
   }
@@ -234,17 +259,5 @@
     display: flex;
     flex-direction: column;
     padding: 15px;
-  }
-
-  .output-connector {
-    position: absolute;
-    /* updates to top and left must be updated in connector js logic */
-    top: 13px;
-    left: 210px;
-    display: block;
-    background-color: var(--color-gold);
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
   }
 </style>

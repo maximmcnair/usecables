@@ -22,6 +22,7 @@
     right: 0px;
     left: 0px;
     z-index: 3;
+    overflow: hidden;
   }
 
   .nodes-editor {
