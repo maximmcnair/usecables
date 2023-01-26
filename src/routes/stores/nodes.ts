@@ -1,62 +1,79 @@
 import { writable } from 'svelte/store';
 import type { Node, NodesObj } from '../types';
+import uid from '../../lib/uid';
 
 interface NodeStore {
   nodes: Node[];
   nodesObj: NodesObj;
 }
 
+const waveSin1Id = uid();
+const waveSin2Id = uid();
+
 const defaultState: NodeStore = {
   nodes: [
     {
-      id: 'box-1',
+      id: uid(),
       type: 'Box',
       name: 'Box',
-      x: 'wave-1',
-      y: 'wave-2',
+      x: waveSin1Id,
+      // x: 10,
+      // y: 'wave-2',
+      y: 10,
       width: 100,
       height: 100,
-      color: 'red',
+      color: [255, 214, 255],
       editorX: 464,
       editorY: 197
     },
     {
-      id: 'wave-1',
+      id: waveSin1Id,
       type: 'Wave',
       name: 'Wave',
       waveform: 'sin',
       period: 10,
       amplitude: 147,
-      frequency: 100,
+      frequency: 2,
       offset: 0,
       phase: 0,
       editorX: 109,
       editorY: 168
     },
-    {
-      id: 'wave-2',
-      type: 'Wave',
-      name: 'Wave',
-      waveform: 'sin',
-      period: 10,
-      amplitude: 122,
-      frequency: 10,
-      offset: 0,
-      phase: 0,
-      editorX: 138,
-      editorY: 547
-    }
-    // { id: 'box-2',
-    //   type: 'Box',
-    //   name: 'box 2',
-    //   x: 200,
-    //   y: 200,
-    //   width: 200,
-    //   height: 100,
-    //   color: 'blue',
-    //   editorX: 865,
-    //   editorY: 464,
+    // {
+    //   // id: 'wave-2',
+    //   id: uid(),
+    //   type: 'Wave',
+    //   name: 'Wave',
+    //   waveform: 'sin',
+    //   period: 10,
+    //   amplitude: 122,
+    //   frequency: 10,
+    //   offset: 0,
+    //   phase: 0,
+    //   editorX: 138,
+    //   editorY: 547
     // },
+    { id: uid(),
+      type: 'Box',
+      name: 'box 2',
+      x: 200,
+      y: 200,
+      width: 200,
+      height: 100,
+      color: [184, 192, 255],
+      editorX: 865,
+      editorY: 464,
+    },
+    { id: uid(),
+      type: 'Circle',
+      name: 'Circle',
+      x: 200,
+      y: 200,
+      radius: 200,
+      color: [10, 147, 150],
+      editorX: 865,
+      editorY: 164,
+    },
   ],
   nodesObj: {}
 };

@@ -162,6 +162,24 @@
       />
     {/if}
 
+    {#if node.type === 'Circle'}
+      <NodeEditorNumber
+        title="Radius"
+        value={node.radius}
+        onUpdate={(val) => nodeUpdate(node.id, { radius: val })}
+      />
+      <NodeEditorNumber
+        title="x"
+        value={node.x}
+        onUpdate={(val) => nodeUpdate(node.id, { x: val })}
+      />
+      <NodeEditorNumber
+        title="y"
+        value={node.y}
+        onUpdate={(val) => nodeUpdate(node.id, { y: val })}
+      />
+    {/if}
+
     {#if node.type === 'Wave'}
       <NodeEditorSelect
         title="Waveform"
@@ -180,7 +198,7 @@
         title="Frequency"
         value={node.frequency}
         min={1}
-        max={600}
+        max={10}
         onUpdate={(val) => nodeUpdate(node.id, { frequency: val })}
       />
     {/if}
@@ -202,16 +220,14 @@
     width: 220px;
     position: absolute;
     cursor: move;
-    background-color: var(--color-grey-dark);
-    /* border: 1px solid var(--color-grey); */
+    background-color: rgb(29 31 32 / 77%);
     margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.4);
   }
 
   .node-header {
-    background-color: var(--color-grey-darker);
-    /* border-bottom: 1px solid var(--color-grey); */
+    background-color: rgb(19 21 21 / 34%);
     border-radius: 10px 10px 0px 0px;
     height: 40px;
   }
