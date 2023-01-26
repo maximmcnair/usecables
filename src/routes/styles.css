@@ -12,6 +12,7 @@
 /* Base font-size of 16px */
 html {
   font-size: 112.5%;
+  overflow: hidden;
 }
 
 @font-face {
