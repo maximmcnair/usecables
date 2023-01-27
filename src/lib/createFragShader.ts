@@ -1,4 +1,4 @@
-import type { Node, NodesObj, NodeBox, Color } from '../types';
+import type { Node, NodesObj, NodeBox, NodeWave, Color, NodeCircle } from '../types';
 
 interface CanvasOpts {
   canvasWidth: number;
@@ -34,7 +34,7 @@ export default function createFragShader(
     return typeof val === 'string' ? processNode(val) : numberToFloat(val);
   }
 
-  function renderWave(node: Node) {
+  function renderWave(node: NodeWave) {
     return `${numberToFloat(node.amplitude)} * ${node.waveform}(u_time / ${numberToFloat(node.frequency)})`;
   }
 
@@ -84,34 +84,36 @@ void main() {
   ${nodes
     .map((node) => {
       if (node.type === 'Box') {
+        const n = node as NodeBox;
         return `
   // Rectangle
-  float ${node.id}Width = ${node.width}.0;
-  float ${node.id}Height = ${node.height}.0;
-  vec3 ${node.id}Color = ${colorToVec3(node.color)};
-  vec2 ${node.id}XY = vec2(uv.x, uv.y);
-  ${node.id}XY.x += ${nodeOrVal(node.x)};
-  ${node.id}XY.y += ${nodeOrVal(node.y)};
-  vec4 layer${node.id} = rectangle(${node.id}XY, center, ${node.id}Width, ${
-          node.id
-        }Height, ${node.id}Color);
-  gl_FragColor = mix(gl_FragColor, layer${node.id}, layer${node.id}.a);
+  float ${n.id}Width = ${n.width}.0;
+  float ${n.id}Height = ${n.height}.0;
+  vec3 ${n.id}Color = ${colorToVec3(n.color)};
+  vec2 ${n.id}XY = vec2(uv.x, uv.y);
+  ${n.id}XY.x += ${nodeOrVal(n.x)};
+  ${n.id}XY.y += ${nodeOrVal(n.y)};
+  vec4 layer${n.id} = rectangle(${n.id}XY, center, ${n.id}Width, ${
+          n.id
+        }Height, ${n.id}Color);
+  gl_FragColor = mix(gl_FragColor, layer${n.id}, layer${n.id}.a);
 `;
       }
 
       if (node.type === 'Circle') {
-        return `
+          const n = node as NodeCircle;
+          return `
   // Circle
-  vec3 ${node.id}Color = ${colorToVec3(node.color)};
-  float ${node.id}Radius = ${node.radius}.0;
+  vec3 ${n.id}Color = ${colorToVec3(n.color)};
+  float ${n.id}Radius = ${n.radius}.0;
 	// float radius = 0.25 * u_resolution.y;
-  vec2 ${node.id}XY = vec2(uv.x, uv.y);
-  ${node.id}XY.x += ${node.x}.0;
-  ${node.id}XY.y += ${node.y}.0;
-	vec4 layer${node.id} = circle(${node.id}XY, center, ${node.id}Radius, ${
-          node.id
+  vec2 ${n.id}XY = vec2(uv.x, uv.y);
+  ${n.id}XY.x += ${nodeOrVal(n.x)};
+  ${n.id}XY.y += ${nodeOrVal(n.y)};
+	vec4 layer${n.id} = circle(${n.id}XY, center, ${n.id}Radius, ${
+          n.id
         }Color);
-  gl_FragColor = mix(gl_FragColor, layer${node.id}, layer${node.id}.a);
+  gl_FragColor = mix(gl_FragColor, layer${n.id}, layer${n.id}.a);
 `;
       }
 

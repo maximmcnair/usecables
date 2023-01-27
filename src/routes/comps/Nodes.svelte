@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Node, NodesObj } from '../types';
+  import type { Node, NodesObj } from '../../types';
   import NodeEditor from './NodeEditor.svelte';
 
   export let nodes: Node[];

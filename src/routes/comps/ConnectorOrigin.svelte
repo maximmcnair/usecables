@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Node } from '../types';
+  import type { Node } from '../../types';
 
   export let x: number;
   export let y: number;
@@ -10,7 +10,7 @@
   let isDragging = false;
 
   $: {
-    console.log('update')
+    console.log('update');
     handleX = x - 8;
     handleY = y - 8;
   }
@@ -40,6 +40,8 @@
     if (evt.x !== 0 && evt.y !== 0) {
       handleX = evt.x;
       handleY = evt.y;
+      // handleX = evt.x - 8;
+      // handleY = evt.y - 8;
     }
   }}
   on:dragstart={(evt) => {
@@ -59,7 +61,14 @@
 
 {#if isDragging}
   <svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
-    <line x1={x} y1={y} x2={handleX + 8} y2={handleY + 8} stroke="var(--color-gold)" stroke-width="3" />
+    <line
+      x1={x}
+      y1={y}
+      x2={handleX + 8}
+      y2={handleY + 8}
+      stroke="var(--color-gold)"
+      stroke-width="3"
+    />
   </svg>
 {/if}
 

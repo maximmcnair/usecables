@@ -4,7 +4,7 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Node, NodeType, NodesObj } from '../types';
+  import type { Node, NodeType, NodesObj } from '../../types';
   import nodesStore, { nodeUpdate } from '../stores/nodes';
   import ConnectorOrigin from './ConnectorOrigin.svelte';
   import NodeConnector from './NodeConnector.svelte';
@@ -66,11 +66,15 @@
   // build connectors from all props that are strings
   // TODO there is probably a better way to do this
   $: {
-    const possibleConnectors = ['x', 'y'];
+    const possibleConnectors = {
+      Box: ['x', 'y'],
+      Circle: ['x', 'y'],
+      Wave: []
+    };
 
     const cons: NodeConnector[] = [];
     const drops: NodeDropper[] = [];
-    for (let prop of possibleConnectors) {
+    for (let prop of possibleConnectors[node.type]) {
       if (typeof node[prop] === 'string') {
         const originNodeId: string = node[prop];
         const originNode: Node = nodesObj[originNodeId];
@@ -94,15 +98,24 @@
 
   // $: console.log('c', connectors)
 
-  // select: 70 + 15 = 85
-  // range: 55 + 15 = 70
-  // number: 20 + 15 = 35
-  const boxPropConnectors: Record<string, number> = {
-    // (header + props padding)
-    height: 40 + 20 + 8,
-    width: 95 + 8,
-    x: 130 + 8,
-    y: 165 + 8
+  const boxPropConnectors: Record<string, Record<string, number>> = {
+    Box: {
+      // (header + props padding)
+      height: 40 + 20 + 8,
+      width: 95 + 8,
+      x: 130 + 8,
+      y: 165 + 8
+    },
+    Circle: {
+      height: 40 + 20 + 8,
+      x: 95 + 8,
+      y: 130 + 8
+    },
+    Wave: {
+      waveform: 85,
+      range: 85 + 70,
+      number: 70 + 35
+    }
   };
 </script>
 
@@ -112,20 +125,19 @@
       x1={connector.origin?.editorX + 220}
       y1={connector.origin?.editorY + 22}
       x2={connector.target?.editorX + 0}
-      y2={connector.target?.editorY + boxPropConnectors[connector.prop]}
+      y2={connector.target?.editorY +
+        boxPropConnectors[connector.target.type][connector.prop]}
     />
   {/if}
 {/each}
 
 {#each droppers as drop}
-  {#if node.type === 'Box'}
-    <NodeDropper
-      prop={drop.prop}
-      x={drop.node.editorX + 0}
-      y={drop.node.editorY + boxPropConnectors[drop.prop]}
-      createConnection={(val) => nodeUpdate(node.id, { [drop.prop]: val })}
-    />
-  {/if}
+  <NodeDropper
+    prop={drop.prop}
+    x={drop.node.editorX + 0}
+    y={drop.node.editorY + boxPropConnectors[drop.node.type][drop.prop]}
+    createConnection={(val) => nodeUpdate(node.id, { [drop.prop]: val })}
+  />
 {/each}
 
 {#if node.type === 'Wave'}
