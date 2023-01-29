@@ -67,8 +67,8 @@
   // TODO there is probably a better way to do this
   $: {
     const possibleConnectors = {
-      Box: ['x', 'y'],
-      Circle: ['x', 'y'],
+      Box: ['height', 'width', 'x', 'y'],
+      Circle: ['radius', 'x', 'y'],
       Wave: []
     };
 
@@ -107,7 +107,7 @@
       y: 165 + 8
     },
     Circle: {
-      height: 40 + 20 + 8,
+      radius: 40 + 20 + 8,
       x: 95 + 8,
       y: 130 + 8
     },

@@ -87,8 +87,8 @@ void main() {
         const n = node as NodeBox;
         return `
   // Rectangle
-  float ${n.id}Width = ${n.width}.0;
-  float ${n.id}Height = ${n.height}.0;
+  float ${n.id}Width = ${nodeOrVal(n.width)};
+  float ${n.id}Height = ${nodeOrVal(n.height)};
   vec3 ${n.id}Color = ${colorToVec3(n.color)};
   vec2 ${n.id}XY = vec2(uv.x, uv.y);
   ${n.id}XY.x += ${nodeOrVal(n.x)};
@@ -105,7 +105,7 @@ void main() {
           return `
   // Circle
   vec3 ${n.id}Color = ${colorToVec3(n.color)};
-  float ${n.id}Radius = ${n.radius}.0;
+  float ${n.id}Radius = ${nodeOrVal(n.radius)};
 	// float radius = 0.25 * u_resolution.y;
   vec2 ${n.id}XY = vec2(uv.x, uv.y);
   ${n.id}XY.x += ${nodeOrVal(n.x)};

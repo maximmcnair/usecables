@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Node, NodesObj } from './types';
+  import type { Node, NodesObj } from '../types';
   import Nodes from './comps/Nodes.svelte';
   import nodesStore from './stores/nodes';
 
