@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store';
-import type { Node, NodesObj } from '../../types';
-import uid from '../../lib/uid';
-import colors from '../../lib/colors';
+import type { Node, NodesObj, NodeBox, NodeWave } from '$types';
+
+import colors from '$lib/colors';
+import uid from '$lib/uid';
 
 interface NodeStore {
   nodes: Node[];
@@ -12,32 +13,32 @@ const waveSin1Id = uid();
 
 const defaultState: NodeStore = {
   nodes: [
-    // {
-    //   id: uid(),
-    //   type: 'Box',
-    //   name: 'Box',
-    //   // x: 0,
-    //   x: waveSin1Id,
-    //   y: 10,
-    //   width: 100,
-    //   height: 100,
-    //   color: colors.purple,
-    //   editorX: 464,
-    //   editorY: 197
-    // },
-    // {
-    //   id: waveSin1Id,
-    //   type: 'Wave',
-    //   name: 'Wave',
-    //   waveform: 'sin',
-    //   period: 10,
-    //   amplitude: 147,
-    //   frequency: 2,
-    //   offset: 0,
-    //   phase: 0,
-    //   editorX: 109,
-    //   editorY: 168
-    // },
+    {
+      id: uid(),
+      type: 'Box',
+      name: 'Box',
+      // x: 0,
+      x: waveSin1Id,
+      y: 10,
+      width: 100,
+      height: 100,
+      color: colors.purple,
+      editorX: 464,
+      editorY: 197
+    },
+    {
+      id: waveSin1Id,
+      type: 'Wave',
+      name: 'Wave',
+      waveform: 'sin',
+      period: 10,
+      amplitude: 147,
+      frequency: 2,
+      offset: 0,
+      phase: 0,
+      editorX: 109,
+      editorY: 168
+    }
     // {
     //   id: uid(),
     //   type: 'Wave',
@@ -99,7 +100,7 @@ export function nodeUpdate(nodeId: string, updatedNode: Partial<Node>) {
   });
 }
 
-export function nodeCreate(node: Omit<Node, 'id'>): void {
+export function nodeCreate(node: Omit<NodeBox | NodeWave, 'id'>): void {
   const newNode: Node = {
     ...node,
     id: uid()
@@ -107,6 +108,19 @@ export function nodeCreate(node: Omit<Node, 'id'>): void {
 
   nodesStore.update(({ nodes }) => {
     const updatedNodes = [...nodes, newNode];
+    return {
+      nodes: updatedNodes,
+      nodesObj: createNodesObj(updatedNodes)
+    };
+  });
+}
+
+export function nodeDelete(nodeId: string): void {
+  nodesStore.update(({ nodes }) => {
+    const updatedNodes = nodes.filter(n => {
+      return n.id != nodeId;
+    });
+
     return {
       nodes: updatedNodes,
       nodesObj: createNodesObj(updatedNodes)

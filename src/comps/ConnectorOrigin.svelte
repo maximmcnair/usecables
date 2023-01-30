@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Node } from '../../types';
+  import type { Node } from '$types';
 
   export let x: number;
   export let y: number;
@@ -10,7 +10,6 @@
   let isDragging = false;
 
   $: {
-    console.log('update');
     handleX = x - 8;
     handleY = y - 8;
   }
@@ -29,7 +28,7 @@
 
   onResize();
 
-  $: console.log(handleX, handleY, x, y);
+  // $: console.log(handleX, handleY, x, y);
 </script>
 
 <div

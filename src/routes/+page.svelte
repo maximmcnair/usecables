@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Node, NodesObj } from '../types';
-  import Nodes from './comps/Nodes.svelte';
-  import nodesStore from './stores/nodes';
+  import type { Node, NodesObj } from '$types';
+  import Nodes from '$comps/Nodes.svelte';
+  import nodesStore from '$stores/nodes';
 
   let nodes: Node[] = [];
   let nodesObj: NodesObj;
@@ -15,7 +15,7 @@
     });
 
     try {
-      canvas = (await import('./comps/Canvas.svelte')).default;
+      canvas = (await import('../comps/Canvas.svelte')).default;
     } catch (err) {
       console.error(err);
     }

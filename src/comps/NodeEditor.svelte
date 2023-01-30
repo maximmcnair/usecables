@@ -4,14 +4,15 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Node, NodeType, NodesObj } from '../../types';
-  import nodesStore, { nodeUpdate } from '../stores/nodes';
+  import type { Node, NodeType, NodesObj, Position } from '$types';
+  import nodesStore, { nodeDelete, nodeUpdate } from '$stores/nodes';
   import ConnectorOrigin from './ConnectorOrigin.svelte';
   import NodeConnector from './NodeConnector.svelte';
   import NodeDropper from './NodeDropper.svelte';
   import NodeEditorSelect from './NodeEditorSelect.svelte';
   import NodeEditorRange from './NodeEditorRange.svelte';
   import NodeEditorNumber from './NodeEditorNumber.svelte';
+  import Menu from './Menu.svelte';
 
   export let node: Node;
 
@@ -69,7 +70,8 @@
     const possibleConnectors = {
       Box: ['height', 'width', 'x', 'y'],
       Circle: ['radius', 'x', 'y'],
-      Wave: []
+      Wave: [],
+      Map: []
     };
 
     const cons: NodeConnector[] = [];
@@ -115,8 +117,27 @@
       waveform: 85,
       range: 85 + 70,
       number: 70 + 35
-    }
+    },
+    Map: {}
   };
+
+  function deleteNode() {
+    closeMenu();
+    nodeDelete(node.id);
+  }
+
+  let menuVisible = false;
+  let menuPos: Position = { x: 0, y: 0 };
+  function showMenu(evt: MouseEvent) {
+    // hide default menu
+    evt.preventDefault();
+    // position menu to cursor
+    menuPos = { x: evt.clientX, y: evt.clientY };
+    menuVisible = true;
+  }
+  function closeMenu() {
+    menuVisible = false;
+  }
 </script>
 
 {#each connectors as connector}
@@ -140,8 +161,17 @@
   />
 {/each}
 
-{#if node.type === 'Wave'}
+{#if ['Map'].includes(node.type)}
+  <ConnectorOrigin x={node.editorX} y={node.editorY + 20} {node} />
+{/if}
+{#if ['Wave', 'Map'].includes(node.type)}
   <ConnectorOrigin x={node.editorX + 220} y={node.editorY + 20} {node} />
+{/if}
+
+{#if menuVisible}
+  <Menu x={menuPos.x} y={menuPos.y} on:close={closeMenu}>
+    <span on:click={() => deleteNode()}>Delete node</span>
+  </Menu>
 {/if}
 
 <div
@@ -154,6 +184,7 @@
   }}
   style:top={`${node.editorY}px`}
   style:left={`${node.editorX}px`}
+  on:contextmenu={showMenu}
 >
   <header class="node-header">
     <span>{node.name}</span>
@@ -221,6 +252,34 @@
         min={1}
         max={10}
         onUpdate={(val) => nodeUpdate(node.id, { frequency: val })}
+      />
+    {/if}
+
+    {#if node.type === 'Map'}
+      <NodeEditorNumber
+        title="Input"
+        value={node.input}
+        onUpdate={(val) => nodeUpdate(node.id, { input: val })}
+      />
+      <NodeEditorNumber
+        title="Min 1"
+        value={node.min1}
+        onUpdate={(val) => nodeUpdate(node.id, { min1: val })}
+      />
+      <NodeEditorNumber
+        title="Max 1"
+        value={node.max1}
+        onUpdate={(val) => nodeUpdate(node.id, { max1: val })}
+      />
+      <NodeEditorNumber
+        title="Min 2"
+        value={node.min2}
+        onUpdate={(val) => nodeUpdate(node.id, { min2: val })}
+      />
+      <NodeEditorNumber
+        title="Max 2"
+        value={node.max2}
+        onUpdate={(val) => nodeUpdate(node.id, { max2: val })}
       />
     {/if}
   </section>

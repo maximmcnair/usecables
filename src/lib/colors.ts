@@ -1,4 +1,4 @@
-import type { Color } from '../types';
+import type { Color } from '$types';
 
 const colors: Record<string, Color> = {
   purple: [105, 48, 195],

@@ -1,7 +1,12 @@
 export type NodeTypeBox = 'Box';
 export type NodeTypeWave = 'Wave';
 export type NodeTypeCircle = 'Circle';
-export type NodeType = NodeTypeBox | NodeTypeWave | NodeTypeCircle;
+export type NodeTypeMap = 'Map';
+export type NodeType =
+  | NodeTypeBox
+  | NodeTypeWave
+  | NodeTypeCircle
+  | NodeTypeMap;
 
 export interface NodeRoot {
   id: string;
@@ -34,6 +39,7 @@ export interface NodeCircle extends NodeRoot {
 }
 
 export interface NodeWave extends NodeRoot {
+  type: NodeTypeWave;
   waveform: 'sin' | 'cos' | 'tan';
   period: number;
   amplitude: number;
@@ -42,7 +48,16 @@ export interface NodeWave extends NodeRoot {
   phase: number;
 }
 
-export type Node = NodeBox | NodeWave | NodeCircle;
+export interface NodeMap extends NodeRoot {
+  type: NodeTypeCircle;
+  input: number | NodeId;
+  min1: number;
+  max1: number;
+  min2: number;
+  max2: number;
+}
+
+export type Node = NodeBox | NodeWave | NodeCircle | NodeMap;
 
 export type NodesObj = Record<string, Node>;
 
@@ -52,3 +67,7 @@ export interface RenderOpts {
   frame: number;
 }
 
+export interface Position {
+  x: number;
+  y: number;
+}

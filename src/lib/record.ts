@@ -1,6 +1,4 @@
 function recordCanvas(canvas: HTMLCanvasElement, time: number) {
-  console.log('recording started');
-
   const recordedChunks: any[] = [];
 
   return new Promise(function (res, rej) {
@@ -20,13 +18,11 @@ function recordCanvas(canvas: HTMLCanvasElement, time: number) {
     };
 
     mediaRecorder.onstop = function (event) {
-      console.log('recording stopped');
       var blob = new Blob(recordedChunks, {
         type: 'video/webm',
         mimeType: 'video/webm;codecs:vp9'
       });
       var url = URL.createObjectURL(blob);
-      console.log(url);
       res(url);
     };
   });
@@ -39,7 +35,6 @@ export default async function record(canvas: HTMLCanvasElement) {
   document.body.appendChild($video);
   $video.setAttribute('class', 'render-video');
   recording.then((url) => $video.setAttribute('src', url));
-  console.log('recording render');
 
   // download it
   const link$ = document.createElement('a');
