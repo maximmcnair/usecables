@@ -74,7 +74,7 @@
         name: 'Number',
         editorX: x,
         editorY: y,
-        value: 10,
+        value: 10
       });
     }
     if (type === 'Noise') {
@@ -83,7 +83,7 @@
         name: 'Noise',
         editorX: x,
         editorY: y,
-        strength: 0.1,
+        strength: 0.1
       });
     }
     // default
@@ -98,31 +98,76 @@
 </script>
 
 <Menu {x} {y}>
-  <small class="menu-title">Create Node</small>
-  <span class="menu-option" on:click={() => createNode('Circle')}>Circle</span>
-  <span class="menu-option" on:click={() => createNode('Box')}>Box</span>
-  <small class="menu-title">Math</small>
-  <span class="menu-option" on:click={() => createNode('Wave')}>Wave</span>
-  <span class="menu-option" on:click={() => createNode('Map')}>Map</span>
-  <span class="menu-option" on:click={() => createNode('Absolute')}>Absolute</span>
-  <small class="menu-title">Constants</small>
-  <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
-  <span class="menu-option" on:click={() => createNode('Time')}>Time</span>
-  <span class="menu-option" on:click={() => createNode('Number')}>Number</span>
-  <small class="menu-title">Effects</small>
-  <span class="menu-option" on:click={() => createNode('Noise')}>Noise</span>
+  <div class="node-creator">
+    <div class="creator-columns">
+      <div class="creator-col">
+        <small class="menu-title">Create</small>
+      </div>
+      <div class="creator-col">
+        <small class="menu-title">Shapes</small>
+        <span class="menu-option" on:click={() => createNode('Circle')}
+          >Circle</span
+        >
+        <span class="menu-option" on:click={() => createNode('Box')}>Box</span>
+      </div>
+      <div class="creator-col">
+        <small class="menu-title">Math</small>
+        <span class="menu-option" on:click={() => createNode('Wave')}>Wave</span
+        >
+        <span class="menu-option" on:click={() => createNode('Map')}>Map</span>
+        <span class="menu-option" on:click={() => createNode('Absolute')}
+          >Absolute</span
+        >
+      </div>
+      <div class="creator-col">
+        <small class="menu-title">Constants</small>
+        <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
+        <span class="menu-option" on:click={() => createNode('Time')}>Time</span
+        >
+        <span class="menu-option" on:click={() => createNode('Number')}
+          >Number</span
+        >
+      </div>
+      <div class="creator-col">
+        <small class="menu-title">Effects</small>
+        <span class="menu-option" on:click={() => createNode('Noise')}
+          >Noise</span
+        >
+      </div>
+    </div>
+  </div>
 </Menu>
 
 <svelte:body on:click={onPageClick} />
 
 <style>
+  .node-creator {
+    width: 480px;
+  }
+
+  .creator-columns {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .creator-col {
+    width: 20%;
+  }
+
   .menu-title,
   .menu-option {
-    text-align: center;
+    display: block;
     padding: 5px;
-    cursor: pointer;
   }
   .menu-title {
     color: var(--color-grey-light);
+  }
+  .menu-option {
+    color: rgba(350, 350, 350, 0.7);
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .menu-option:hover {
+    color: rgba(350, 350, 350, 1);
   }
 </style>

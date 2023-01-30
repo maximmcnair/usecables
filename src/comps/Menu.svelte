@@ -39,7 +39,7 @@
     display: grid;
     padding: 10px;
     border: 1px solid var(--color-grey-dark);
-    background-color: rgb(29 31 32 / 77%);
+    background-color: rgb(29 31 32 / 98%);
     box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.4);
     z-index: 9999;
     font-size: 16px;
