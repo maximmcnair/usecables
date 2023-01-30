@@ -14,8 +14,8 @@
   import NodeEditorNumber from './NodeEditorNumber.svelte';
   import Menu from './Menu.svelte';
   import {
-    nodesWithOutputs,
     nodesWithInputs,
+    nodesWithOutputs,
     possibleNodeConnectors
   } from '$constants/nodes';
 
@@ -96,7 +96,7 @@
     droppers = drops;
   }
 
-  // $: console.log('c', connectors)
+  // $: console.log('c', node.type, connectors, droppers);
 
   const boxPropConnectors: Record<string, Record<string, number>> = {
     Box: {
@@ -112,11 +112,24 @@
       y: 130 + 8
     },
     Wave: {
+      input: 20,
       waveform: 85,
       range: 85 + 70,
       number: 70 + 35
     },
-    Map: {}
+    Map: {
+      input: 20
+    },
+    Absolute: {
+      input: 20
+    },
+    // Constants
+    Time: {
+      input: 20
+    },
+    Resolution: {
+      input: 20
+    },
   };
 
   function deleteNode() {
@@ -159,9 +172,6 @@
   />
 {/each}
 
-{#if nodesWithInputs.includes(node.type)}
-  <ConnectorOrigin x={node.editorX} y={node.editorY + 20} {node} />
-{/if}
 {#if nodesWithOutputs.includes(node.type)}
   <ConnectorOrigin x={node.editorX + 220} y={node.editorY + 20} {node} />
 {/if}
@@ -184,6 +194,13 @@
   style:left={`${node.editorX}px`}
   on:contextmenu={showMenu}
 >
+  {#if nodesWithInputs.includes(node.type) && node?.input !== undefined}
+    <div
+      class="node-connector-input"
+      on:click={() => nodeUpdate(node.id, { input: undefined })}
+    />
+  {/if}
+
   <header class="node-header">
     <span>{node.name}</span>
   </header>
@@ -255,11 +272,6 @@
 
     {#if node.type === 'Map'}
       <NodeEditorNumber
-        title="Input"
-        value={node.input}
-        onUpdate={(val) => nodeUpdate(node.id, { input: val })}
-      />
-      <NodeEditorNumber
         title="Min 1"
         value={node.min1}
         onUpdate={(val) => nodeUpdate(node.id, { min1: val })}
@@ -328,5 +340,16 @@
     display: flex;
     flex-direction: column;
     padding: 15px;
+  }
+
+  .node-connector-input {
+    position: absolute;
+    top: 12px;
+    left: -8px;
+    display: block;
+    background-color: var(--color-gold);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
   }
 </style>

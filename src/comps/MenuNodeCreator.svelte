@@ -80,12 +80,28 @@
 </script>
 
 <Menu {x} {y}>
-  <span on:click={() => createNode('Circle')}>Create Circle</span>
-  <span on:click={() => createNode('Box')}>Create Box</span>
-  <small>Math</small>
-  <span on:click={() => createNode('Wave')}>Create Wave</span>
-  <span on:click={() => createNode('Map')}>Create Map</span>
-  <span on:click={() => createNode('Absolute')}>Create Absolute</span>
+  <small class="menu-title">Create Node</small>
+  <span class="menu-option" on:click={() => createNode('Circle')}>Circle</span>
+  <span class="menu-option" on:click={() => createNode('Box')}>Box</span>
+  <small class="menu-title">Math</small>
+  <span class="menu-option" on:click={() => createNode('Wave')}>Wave</span>
+  <span class="menu-option" on:click={() => createNode('Map')}>Map</span>
+  <span class="menu-option" on:click={() => createNode('Absolute')}>Absolute</span>
+  <small class="menu-title">Constants</small>
+  <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
+  <span class="menu-option" on:click={() => createNode('Time')}>Time</span>
 </Menu>
 
 <svelte:body on:click={onPageClick} />
+
+<style>
+  .menu-title,
+  .menu-option {
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .menu-title {
+    color: var(--color-grey-light);
+  }
+</style>

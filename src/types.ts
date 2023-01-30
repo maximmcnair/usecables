@@ -52,14 +52,19 @@ export interface NodeWave extends NodeRoot {
 
 export interface NodeMap extends NodeRoot {
   type: NodeTypeCircle;
-  input: number | NodeId;
+  input: undefined | NodeId;
   min1: number;
   max1: number;
   min2: number;
   max2: number;
 }
 
-export type Node = NodeBox | NodeWave | NodeCircle | NodeMap;
+export interface NodeAbsolute extends NodeRoot {
+  type: NodeTypeCircle;
+  input: undefined | NodeId;
+}
+
+export type Node = NodeBox | NodeWave | NodeCircle | NodeMap | NodeAbsolute;
 
 export type NodesObj = Record<string, Node>;
 

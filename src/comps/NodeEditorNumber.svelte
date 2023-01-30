@@ -3,13 +3,14 @@
   export let value: string | number;
   export let onUpdate: any;
 
-    // <span class="value">{value}</span>
+  // <span class="value">{value}</span>
+  // TODO onUpdate should use default value
 </script>
 
 <label>
   <span>{title}</span>
   {#if typeof value === 'string'}
-    <div class="connector" on:click={onUpdate(0)} />
+    <div class="connector" on:click={onUpdate(1)} />
   {:else}
     <input
       {value}

@@ -27,9 +27,13 @@ export default function createFragShader(
   nodesObj: NodesObj
 ): string {
   const fns = {
+    // math
     Wave: renderWave,
-    Map: renderMap
-    // Box: renderBox
+    Map: renderMap,
+    Absolute: renderAbsolute,
+    // constants
+    Time: () => 'u_time',
+    Resolution: () => 'u_resolution',
   };
 
   function processNode(nodeId: string, fallback: string) {
@@ -41,18 +45,23 @@ export default function createFragShader(
   }
 
   function nodeOrVal(val: string | number) {
-    return typeof val === 'string' ? processNode(val, '1.0') : numberToFloat(val);
+    return typeof val === 'string'
+      ? processNode(val, '1.0')
+      : numberToFloat(val);
   }
 
   function renderWave(node: NodeWave) {
-    // TODO
     return `${numberToFloat(node.amplitude)} * ${
       node.waveform
-    }(u_time / ${numberToFloat(node.frequency)})`;
+    }(${nodeOrVal(node.input)} / ${numberToFloat(node.frequency)})`;
+  }
+
+  function renderAbsolute(node: Node) {
+    return `abs(${nodeOrVal(node.input)})`;
   }
 
   function renderMap(node: NodeMap) {
-    return `map(${numberToFloat(node.input)}, ${numberToFloat(
+    return `map(${nodeOrVal(node.input)}, ${numberToFloat(
       node.min1
     )}, ${numberToFloat(node.max1)}, ${numberToFloat(
       node.min2
