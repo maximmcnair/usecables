@@ -3,11 +3,13 @@ export type NodeTypeWave = 'Wave';
 export type NodeTypeCircle = 'Circle';
 export type NodeTypeMap = 'Map';
 export type NodeTypeAbsolute = 'Absolute';
+export type NodeTypeNumber = 'Number';
 export type NodeType =
   | NodeTypeBox
   | NodeTypeWave
   | NodeTypeCircle
   | NodeTypeMap
+  | NodeTypeNumber
   | NodeTypeAbsolute;
 
 export interface NodeRoot {
@@ -42,6 +44,7 @@ export interface NodeCircle extends NodeRoot {
 
 export interface NodeWave extends NodeRoot {
   type: NodeTypeWave;
+  input: undefined | NodeId;
   waveform: 'sin' | 'cos' | 'tan';
   period: number;
   amplitude: number;
@@ -64,7 +67,12 @@ export interface NodeAbsolute extends NodeRoot {
   input: undefined | NodeId;
 }
 
-export type Node = NodeBox | NodeWave | NodeCircle | NodeMap | NodeAbsolute;
+export interface NodeNumber extends NodeRoot {
+  type: NodeTypeNumber;
+  value: number;
+}
+
+export type Node = NodeBox | NodeWave | NodeCircle | NodeMap | NodeAbsolute | NodeNumber;
 
 export type NodesObj = Record<string, Node>;
 

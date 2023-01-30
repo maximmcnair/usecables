@@ -79,6 +79,7 @@
     background: var(--color-gold);
     border-radius: 10px;
     z-index: 99;
+    cursor: draggable;
   }
 
   .node-connector {

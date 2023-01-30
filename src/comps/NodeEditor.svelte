@@ -292,6 +292,14 @@
         onUpdate={(val) => nodeUpdate(node.id, { max2: val })}
       />
     {/if}
+
+    {#if ['Number'].includes(node.type)}
+      <NodeEditorNumber
+        title="Value"
+        value={node.value}
+        onUpdate={(val) => nodeUpdate(node.id, { value: val })}
+      />
+    {/if}
   </section>
 </div>
 
@@ -347,6 +355,7 @@
     top: 12px;
     left: -8px;
     display: block;
+    cursor: not-allowed;
     background-color: var(--color-gold);
     width: 16px;
     height: 16px;

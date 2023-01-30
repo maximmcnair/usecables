@@ -1,4 +1,12 @@
-export const nodesWithOutputs = ['Wave', 'Map', 'Absolute', 'Resolution', 'Time'];
+export const nodesWithOutputs = [
+  'Wave',
+  'Map',
+  'Absolute',
+  'Resolution',
+  'Time',
+  'Number'
+];
+
 // NOTE: make sure this is also in possibleNodeConnectors below
 export const nodesWithInputs = ['Wave', 'Map', 'Absolute'];
 
@@ -11,5 +19,6 @@ export const possibleNodeConnectors = {
   Absolute: ['input'],
   // constants
   Resolution: [],
-  Time: []
+  Time: [],
+  Number: []
 };

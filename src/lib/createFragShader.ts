@@ -3,8 +3,11 @@ import type {
   NodesObj,
   NodeBox,
   NodeWave,
+  NodeMap,
+  NodeNumber,
   Color,
-  NodeCircle
+  NodeCircle,
+  NodeAbsolute
 } from '../types';
 
 interface CanvasOpts {
@@ -34,6 +37,7 @@ export default function createFragShader(
     // constants
     Time: () => 'u_time',
     Resolution: () => 'u_resolution',
+    Number: (node: NodeNumber) => `${node.value}.0`,
   };
 
   function processNode(nodeId: string, fallback: string) {
@@ -44,23 +48,26 @@ export default function createFragShader(
     return nodeFn(node as Node);
   }
 
-  function nodeOrVal(val: string | number) {
+  function nodeOrVal(val: string | number | undefined) {
+    if (!val) return '1.0';
     return typeof val === 'string'
       ? processNode(val, '1.0')
       : numberToFloat(val);
   }
 
-  function renderWave(node: NodeWave) {
-    return `${numberToFloat(node.amplitude)} * ${
-      node.waveform
-    }(${nodeOrVal(node.input)} / ${numberToFloat(node.frequency)})`;
+  function renderWave(node: NodeWave): string {
+    const n = node as NodeWave;
+    return `${numberToFloat(n.amplitude)} * ${
+      n.waveform
+    }(${nodeOrVal(n.input)} / ${numberToFloat(n.frequency)})`;
   }
 
-  function renderAbsolute(node: Node) {
-    return `abs(${nodeOrVal(node.input)})`;
+  function renderAbsolute(node: Node): string {
+    const n = node as NodeAbsolute;
+    return `abs(${nodeOrVal(n.input)})`;
   }
 
-  function renderMap(node: NodeMap) {
+  function renderMap(node: NodeMap): string {
     return `map(${nodeOrVal(node.input)}, ${numberToFloat(
       node.min1
     )}, ${numberToFloat(node.max1)}, ${numberToFloat(

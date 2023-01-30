@@ -90,6 +90,7 @@
   <small class="menu-title">Constants</small>
   <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
   <span class="menu-option" on:click={() => createNode('Time')}>Time</span>
+  <span class="menu-option" on:click={() => createNode('Number')}>Number</span>
 </Menu>
 
 <svelte:body on:click={onPageClick} />

@@ -58,5 +58,6 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
+    cursor: not-allowed;
   }
 </style>
