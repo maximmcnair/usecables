@@ -3,6 +3,7 @@
   export let value: number;
   export let min: number;
   export let max: number;
+  export let step: number;
   export let onUpdate: any;
 </script>
 
@@ -13,6 +14,7 @@
     type="range"
     {min}
     {max}
+    {step}
     on:change={(evt) => onUpdate(evt.currentTarget.value)}
   />
 </label>

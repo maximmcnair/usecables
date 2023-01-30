@@ -130,6 +130,8 @@
     Resolution: {
       input: 20
     },
+    // Effects
+    Noise: {}
   };
 
   function deleteNode() {
@@ -178,7 +180,7 @@
 
 {#if menuVisible}
   <Menu x={menuPos.x} y={menuPos.y} on:close={closeMenu}>
-    <span on:click={() => deleteNode()}>Delete node</span>
+    <span class="menu-option" on:click={() => deleteNode()}>Delete node</span>
   </Menu>
 {/if}
 
@@ -293,6 +295,17 @@
       />
     {/if}
 
+    {#if node.type === 'Noise'}
+      <NodeEditorRange
+        title="Strength"
+        value={node.strength}
+        min={0}
+        max={0.5}
+        step={0.05}
+        onUpdate={(val) => nodeUpdate(node.id, { strength: val })}
+      />
+    {/if}
+
     {#if ['Number'].includes(node.type)}
       <NodeEditorNumber
         title="Value"
@@ -360,5 +373,11 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
+  }
+
+  .menu-option {
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
   }
 </style>

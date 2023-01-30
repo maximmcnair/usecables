@@ -3,6 +3,10 @@
   export let value: string | number;
   export let onUpdate: any;
 
+  export let min: string;
+  export let max: string;
+  export let step: string;
+
   // <span class="value">{value}</span>
   // TODO onUpdate should use default value
 </script>
@@ -16,6 +20,9 @@
       {value}
       type="number"
       on:change={(evt) => onUpdate(Number(evt.currentTarget.value))}
+      {min}
+      {max}
+      {step}
     />
   {/if}
 </label>

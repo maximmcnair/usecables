@@ -68,6 +68,24 @@
         max2: 100
       });
     }
+    if (type === 'Number') {
+      return nodeCreate({
+        type: 'Number',
+        name: 'Number',
+        editorX: x,
+        editorY: y,
+        value: 10,
+      });
+    }
+    if (type === 'Noise') {
+      return nodeCreate({
+        type: 'Noise',
+        name: 'Noise',
+        editorX: x,
+        editorY: y,
+        strength: 0.1,
+      });
+    }
     // default
     return nodeCreate({
       type: type,
@@ -91,6 +109,8 @@
   <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
   <span class="menu-option" on:click={() => createNode('Time')}>Time</span>
   <span class="menu-option" on:click={() => createNode('Number')}>Number</span>
+  <small class="menu-title">Effects</small>
+  <span class="menu-option" on:click={() => createNode('Noise')}>Noise</span>
 </Menu>
 
 <svelte:body on:click={onPageClick} />

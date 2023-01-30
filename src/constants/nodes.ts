@@ -20,5 +20,7 @@ export const possibleNodeConnectors = {
   // constants
   Resolution: [],
   Time: [],
-  Number: []
+  Number: [],
+  // effects
+  Noise: [],
 };

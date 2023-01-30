@@ -4,13 +4,15 @@ export type NodeTypeCircle = 'Circle';
 export type NodeTypeMap = 'Map';
 export type NodeTypeAbsolute = 'Absolute';
 export type NodeTypeNumber = 'Number';
+export type NodeTypeNoise = 'Noise';
 export type NodeType =
   | NodeTypeBox
   | NodeTypeWave
   | NodeTypeCircle
   | NodeTypeMap
   | NodeTypeNumber
-  | NodeTypeAbsolute;
+  | NodeTypeAbsolute
+  | NodeTypeNoise;
 
 export interface NodeRoot {
   id: string;
@@ -72,7 +74,19 @@ export interface NodeNumber extends NodeRoot {
   value: number;
 }
 
-export type Node = NodeBox | NodeWave | NodeCircle | NodeMap | NodeAbsolute | NodeNumber;
+export interface NodeNoise extends NodeRoot {
+  type: NodeTypeNumber;
+  strength: number;
+}
+
+export type Node =
+  | NodeBox
+  | NodeWave
+  | NodeCircle
+  | NodeMap
+  | NodeAbsolute
+  | NodeNumber
+  | NodeNoise;
 
 export type NodesObj = Record<string, Node>;
 

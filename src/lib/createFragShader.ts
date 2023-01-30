@@ -7,7 +7,8 @@ import type {
   NodeNumber,
   Color,
   NodeCircle,
-  NodeAbsolute
+  NodeAbsolute,
+  NodeNoise
 } from '../types';
 
 interface CanvasOpts {
@@ -155,9 +156,18 @@ void main() {
 `;
       }
 
+      if (node.type === 'Noise'){
+        const n = node as NodeNoise;
+        return `
+          vec4 noiseLayer = noise(uv);
+          gl_FragColor = mix(gl_FragColor, noiseLayer, ${numberToFloat(node.strength || 0)});
+        `;
+      }
+
       return '';
     })
     .join('')}
+
 }`;
 }
 
