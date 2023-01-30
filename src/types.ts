@@ -2,11 +2,13 @@ export type NodeTypeBox = 'Box';
 export type NodeTypeWave = 'Wave';
 export type NodeTypeCircle = 'Circle';
 export type NodeTypeMap = 'Map';
+export type NodeTypeAbsolute = 'Absolute';
 export type NodeType =
   | NodeTypeBox
   | NodeTypeWave
   | NodeTypeCircle
-  | NodeTypeMap;
+  | NodeTypeMap
+  | NodeTypeAbsolute;
 
 export interface NodeRoot {
   id: string;

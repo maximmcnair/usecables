@@ -13,6 +13,11 @@
   import NodeEditorRange from './NodeEditorRange.svelte';
   import NodeEditorNumber from './NodeEditorNumber.svelte';
   import Menu from './Menu.svelte';
+  import {
+    nodesWithOutputs,
+    nodesWithInputs,
+    possibleNodeConnectors
+  } from '$constants/nodes';
 
   export let node: Node;
 
@@ -67,16 +72,9 @@
   // build connectors from all props that are strings
   // TODO there is probably a better way to do this
   $: {
-    const possibleConnectors = {
-      Box: ['height', 'width', 'x', 'y'],
-      Circle: ['radius', 'x', 'y'],
-      Wave: [],
-      Map: []
-    };
-
     const cons: NodeConnector[] = [];
     const drops: NodeDropper[] = [];
-    for (let prop of possibleConnectors[node.type]) {
+    for (let prop of possibleNodeConnectors[node.type]) {
       if (typeof node[prop] === 'string') {
         const originNodeId: string = node[prop];
         const originNode: Node = nodesObj[originNodeId];
@@ -161,10 +159,10 @@
   />
 {/each}
 
-{#if ['Map'].includes(node.type)}
+{#if nodesWithInputs.includes(node.type)}
   <ConnectorOrigin x={node.editorX} y={node.editorY + 20} {node} />
 {/if}
-{#if ['Wave', 'Map'].includes(node.type)}
+{#if nodesWithOutputs.includes(node.type)}
   <ConnectorOrigin x={node.editorX + 220} y={node.editorY + 20} {node} />
 {/if}
 

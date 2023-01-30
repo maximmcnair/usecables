@@ -15,8 +15,9 @@
   }
 
   async function createNode(type: NodeType) {
+    dispatch('close');
     if (type === 'Box') {
-      nodeCreate({
+      return nodeCreate({
         type: 'Box',
         name: 'Box',
         x: 0,
@@ -29,7 +30,7 @@
       } as Omit<NodeBox, 'id'>);
     }
     if (type === 'Circle') {
-      nodeCreate({
+      return nodeCreate({
         type: 'Circle',
         name: 'Circle',
         x: 200,
@@ -41,7 +42,7 @@
       });
     }
     if (type === 'Wave') {
-      nodeCreate({
+      return nodeCreate({
         type: 'Wave',
         name: 'Wave',
         waveform: 'sin',
@@ -55,7 +56,7 @@
       });
     }
     if (type === 'Map') {
-      nodeCreate({
+      return nodeCreate({
         type: 'Map',
         name: 'Map',
         editorX: x,
@@ -67,15 +68,24 @@
         max2: 100
       });
     }
+    // default
+    return nodeCreate({
+      type: type,
+      name: type,
+      editorX: x,
+      editorY: y
+    });
     dispatch('close');
   }
 </script>
 
-<Menu x={x} y={y}>
+<Menu {x} {y}>
   <span on:click={() => createNode('Circle')}>Create Circle</span>
   <span on:click={() => createNode('Box')}>Create Box</span>
+  <small>Math</small>
   <span on:click={() => createNode('Wave')}>Create Wave</span>
   <span on:click={() => createNode('Map')}>Create Map</span>
+  <span on:click={() => createNode('Absolute')}>Create Absolute</span>
 </Menu>
 
 <svelte:body on:click={onPageClick} />

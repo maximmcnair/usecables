@@ -15,6 +15,7 @@ const config = {
       '$lib': 'src/lib',
       '$routes': 'src/routes',
       '$stores': 'src/stores',
+      '$constants': 'src/constants',
     }
   }
 };

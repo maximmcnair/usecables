@@ -45,6 +45,7 @@ export default function createFragShader(
   }
 
   function renderWave(node: NodeWave) {
+    // TODO
     return `${numberToFloat(node.amplitude)} * ${
       node.waveform
     }(u_time / ${numberToFloat(node.frequency)})`;
@@ -130,7 +131,6 @@ void main() {
   // Circle
   vec3 ${n.id}Color = ${colorToVec3(n.color)};
   float ${n.id}Radius = ${nodeOrVal(n.radius)};
-	// float radius = 0.25 * u_resolution.y;
   vec2 ${n.id}XY = vec2(uv.x, uv.y);
   ${n.id}XY.x += ${nodeOrVal(n.x)};
   ${n.id}XY.y += ${nodeOrVal(n.y)};
@@ -144,3 +144,12 @@ void main() {
     .join('')}
 }`;
 }
+
+/*
+HOLDING PEN - 
+
+// TODO
+// float radius = 0.25 * u_resolution.y;
+float ${n.id}Radius = abs(10.0 * sin(u_time));
+
+*/

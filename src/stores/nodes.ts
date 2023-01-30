@@ -17,7 +17,6 @@ const defaultState: NodeStore = {
       id: uid(),
       type: 'Box',
       name: 'Box',
-      // x: 0,
       x: waveSin1Id,
       y: 10,
       width: 100,
@@ -39,31 +38,6 @@ const defaultState: NodeStore = {
       editorX: 109,
       editorY: 168
     }
-    // {
-    //   id: uid(),
-    //   type: 'Wave',
-    //   name: 'Wave',
-    //   waveform: 'sin',
-    //   period: 10,
-    //   amplitude: 122,
-    //   frequency: 10,
-    //   offset: 0,
-    //   phase: 0,
-    //   editorX: 138,
-    //   editorY: 547
-    // },
-    // {
-    //   id: uid(),
-    //   type: 'Box',
-    //   name: 'box 2',
-    //   x: 200,
-    //   y: 200,
-    //   width: 200,
-    //   height: 100,
-    //   color: colors.blue,
-    //   editorX: 865,
-    //   editorY: 464
-    // }
   ],
   nodesObj: {}
 };
