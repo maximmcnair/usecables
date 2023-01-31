@@ -22,19 +22,21 @@
   export let node: Node;
 
   function onDragStart() {
+    console.log('onDragStart', node.editorX, node.editorY)
     return {
       x: node.editorX,
       y: node.editorY
     };
   }
   function onDragMove(x: number, y: number) {
+    console.log('onDragMove', x, y);
     nodeUpdate(node.id, {
       editorX: x,
       editorY: y
     });
   }
   function onDragEnd(x: number, y: number) {
-    // TODO save on a server
+    console.log('onDragEnd', x, y);
     nodeUpdate(node.id, {
       editorX: x,
       editorY: y

@@ -36,6 +36,7 @@
   style={`top: ${handleY}px; left: ${handleX}px; z-index: 55;`}
   draggable="true"
   on:drag={(evt) => {
+    console.log(evt.x, evt.y, evt.layerX, evt.layerY, evt);
     if (evt.x !== 0 && evt.y !== 0) {
       handleX = evt.x;
       handleY = evt.y;
@@ -44,14 +45,18 @@
     }
   }}
   on:dragstart={(evt) => {
+    // console.log('dragstart', evt)
     isDragging = true;
     if (evt?.dataTransfer) {
       evt.dataTransfer.setData('text', node.id);
-      evt.dataTransfer.setDragImage(new Image(), 0, 0);
+      if (!navigator.userAgent.indexOf('Firefox') != -1) {
+        evt.dataTransfer.setDragImage(new Image(), 0, 0);
+      }
       evt.dataTransfer.dropEffect = 'link';
     }
   }}
   on:dragend={() => {
+    console.log('dragend');
     isDragging = false;
     handleX = x - 8;
     handleY = y - 8;

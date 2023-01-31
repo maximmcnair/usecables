@@ -12,6 +12,7 @@
     evt.preventDefault();
   }}
   on:drop={(evt) => {
+    evt.preventDefault();
     if (evt?.dataTransfer) {
       createConnection(evt.dataTransfer.getData('text'));
     }
