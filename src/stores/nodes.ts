@@ -10,21 +10,11 @@ interface NodeStore {
 }
 
 const waveSin1Id = uid();
+const timeId = uid();
 
 const defaultState: NodeStore = {
   nodes: [
-    {
-      id: uid(),
-      type: 'Box',
-      name: 'Box',
-      x: waveSin1Id,
-      y: 10,
-      width: 100,
-      height: 100,
-      color: colors.purple,
-      editorX: 464,
-      editorY: 197
-    },
+    { id: timeId, type: 'Time', name: 'Time', editorX: 64, editorY: 100 },
     {
       id: waveSin1Id,
       type: 'Wave',
@@ -35,9 +25,22 @@ const defaultState: NodeStore = {
       frequency: 2,
       offset: 0,
       phase: 0,
-      editorX: 109,
-      editorY: 168
-    }
+      input: timeId,
+      editorX: 339,
+      editorY: 108
+    },
+    {
+      id: uid(),
+      type: 'Box',
+      name: 'Box',
+      x: waveSin1Id,
+      y: 10,
+      width: 100,
+      height: 100,
+      color: colors.purple,
+      editorX: 664,
+      editorY: 127
+    },
   ],
   nodesObj: {}
 };
@@ -91,7 +94,7 @@ export function nodeCreate(node: Omit<NodeBox | NodeWave, 'id'>): void {
 
 export function nodeDelete(nodeId: string): void {
   nodesStore.update(({ nodes }) => {
-    const updatedNodes = nodes.filter(n => {
+    const updatedNodes = nodes.filter((n) => {
       return n.id != nodeId;
     });
 

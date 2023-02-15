@@ -5,6 +5,7 @@ export type NodeTypeMap = 'Map';
 export type NodeTypeAbsolute = 'Absolute';
 export type NodeTypeNumber = 'Number';
 export type NodeTypeNoise = 'Noise';
+export type NodeTypeTime = 'Time';
 export type NodeType =
   | NodeTypeBox
   | NodeTypeWave
@@ -12,7 +13,8 @@ export type NodeType =
   | NodeTypeMap
   | NodeTypeNumber
   | NodeTypeAbsolute
-  | NodeTypeNoise;
+  | NodeTypeNoise
+  | NodeTypeTime;
 
 export interface NodeRoot {
   id: string;
@@ -79,6 +81,10 @@ export interface NodeNoise extends NodeRoot {
   strength: number;
 }
 
+export interface NodeTime extends NodeRoot {
+  type: NodeTypeTime;
+}
+
 export type Node =
   | NodeBox
   | NodeWave
@@ -86,7 +92,8 @@ export type Node =
   | NodeMap
   | NodeAbsolute
   | NodeNumber
-  | NodeNoise;
+  | NodeNoise
+  | NodeTime;
 
 export type NodesObj = Record<string, Node>;
 
