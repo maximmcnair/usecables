@@ -2,10 +2,9 @@
   import GlslCanvas from 'glslCanvas';
   import { onMount } from 'svelte';
 
-  import type { Node, NodesObj, Position } from '$types';
+  import type { Node, NodesObj } from '$types';
   import createFragShader from '$lib/createFragShader';
   import Header from './Header.svelte';
-  import MenuNodeCreator from './MenuNodeCreator.svelte';
 
   export let nodes: Node[];
   export let nodesObj: NodesObj;
@@ -54,37 +53,15 @@
 
     sandbox.setUniform('seed', Math.random());
   });
-
-  let menuVisible = false;
-  let menuPos: Position = { x: 0, y: 0 };
-  function closeMenu() {
-    menuVisible = false;
-  }
-
-  function handleBodyContextMenu(evt: MouseEvent) {
-    if (!evt?.target?.className.includes('nodes-editor')) return;
-    // hide default menu
-    evt.preventDefault();
-    // position menu to cursor
-    menuPos = { x: evt.clientX, y: evt.clientY };
-    menuVisible = true;
-  }
 </script>
 
 {#if canvas}
   <Header bind:width={canvasWidth} bind:height={canvasHeight} {canvas} />
 {/if}
 
-{#if menuVisible}
-  <MenuNodeCreator x={menuPos.x} y={menuPos.y} on:close={closeMenu} />
-{/if}
-
-
 <div class="container">
   <canvas id="canvas" />
 </div>
-
-<svelte:body on:contextmenu={handleBodyContextMenu} />
 
 <style>
   .container {

@@ -10,7 +10,7 @@
 
   const dispatch = createEventDispatcher();
 
-  function onPageClick(evt: MouseEvent) {
+  function onBgClick(evt: MouseEvent) {
     dispatch('close');
   }
 
@@ -138,9 +138,20 @@
   </div>
 </Menu>
 
-<svelte:body on:click={onPageClick} />
+<!-- <svelte:body on:click={onBgClick} /> -->
+
+<div class="creator-bg" on:click={onBgClick} />
 
 <style>
+  .creator-bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 88;
+  }
+
   .node-creator {
     width: 480px;
   }
@@ -156,6 +167,7 @@
 
   .menu-title,
   .menu-option {
+    user-select: none;
     display: block;
     padding: 5px;
   }

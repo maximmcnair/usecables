@@ -36,7 +36,7 @@
   style={`top: ${handleY}px; left: ${handleX}px; z-index: 55;`}
   draggable="true"
   on:drag={(evt) => {
-    console.log(evt.x, evt.y, evt.layerX, evt.layerY, evt);
+    // console.log(evt.x, evt.y, evt.layerX, evt.layerY, evt);
     if (evt.x !== 0 && evt.y !== 0) {
       handleX = evt.x;
       handleY = evt.y;
@@ -56,7 +56,7 @@
     }
   }}
   on:dragend={() => {
-    console.log('dragend');
+    // console.log('dragend');
     isDragging = false;
     handleX = x - 8;
     handleY = y - 8;

@@ -1,17 +1,36 @@
 <script lang="ts">
-  import type { Node, NodesObj } from '$types';
+  import type { Node, NodesObj, Position } from '$types';
   import NodeEditor from './NodeEditor.svelte';
+  import MenuNodeCreator from './MenuNodeCreator.svelte';
   import { fade } from 'svelte/transition';
 
   export let nodes: Node[];
   export let nodesObj: NodesObj;
 
   let areNodesVisible: boolean = true;
+
+  let menuVisible = false;
+  let menuPos: Position = { x: 0, y: 0 };
+
+  function closeMenu() {
+    menuVisible = false;
+  }
+
+  function handleBgClick(evt: MouseEvent) {
+    evt.preventDefault();
+    // position menu to cursor
+    menuPos = { x: evt.clientX, y: evt.clientY };
+    menuVisible = true;
+  }
 </script>
+
+{#if menuVisible}
+  <MenuNodeCreator x={menuPos.x} y={menuPos.y} on:close={closeMenu} />
+{/if}
 
 {#if areNodesVisible}
   <section class="nodes" transition:fade={{ duration: 100 }}>
-    <section class="nodes-editor">
+    <section class="nodes-editor" on:click={handleBgClick}>
       {#each nodes as node}
         <NodeEditor {node} />
       {/each}
