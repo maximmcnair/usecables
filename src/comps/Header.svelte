@@ -25,9 +25,11 @@
     <input bind:value={height} type="number" min={100} />
   </label>
 
-  <button class="canvas-record" on:click={recordCanvas}
-    >{isRecording ? 'Recording' : 'Record'}</button
-  >
+  {#if false}
+    <button class="canvas-record" on:click={recordCanvas}
+      >{isRecording ? 'Recording' : 'Record'}</button
+    >
+  {/if}
 </nav>
 
 <style>

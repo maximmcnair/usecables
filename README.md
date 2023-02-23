@@ -1,2 +1,0 @@
-- color / randomise on create (from colors constant)
-- nodes / default values on connector removal

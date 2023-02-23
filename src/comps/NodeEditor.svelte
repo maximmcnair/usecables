@@ -197,6 +197,7 @@
   style:top={`${node.editorY}px`}
   style:left={`${node.editorX}px`}
   on:contextmenu={showMenu}
+  on:click={(evt) => evt.stopPropagation()}
 >
   {#if nodesWithInputs.includes(node.type) && node?.input !== undefined}
     <div
