@@ -18,8 +18,11 @@
     nodesWithOutputs,
     possibleNodeConnectors
   } from '$constants/nodes';
+  import { snapToGrid } from '$lib/snapToGrid';
 
   export let node: Node;
+
+  let shouldSnapToGrid = false;
 
   function onDragStart() {
     // console.log('onDragStart', node.editorX, node.editorY)
@@ -31,15 +34,15 @@
   function onDragMove(x: number, y: number) {
     // console.log('onDragMove', x, y);
     nodeUpdate(node.id, {
-      editorX: x,
-      editorY: y
+      editorX: shouldSnapToGrid ? snapToGrid(x) : x,
+      editorY: shouldSnapToGrid ? snapToGrid(y) : y,
     });
   }
   function onDragEnd(x: number, y: number) {
     // console.log('onDragEnd', x, y);
     nodeUpdate(node.id, {
-      editorX: x,
-      editorY: y
+      editorX: shouldSnapToGrid ? snapToGrid(x) : x,
+      editorY: shouldSnapToGrid ? snapToGrid(y) : y
     });
   }
 
@@ -338,6 +341,7 @@
     margin-bottom: 10px;
     border-radius: 10px;
     box-shadow: -2px 4px 13px 0px rgba(0, 0, 0, 0.4);
+    /* transition: all .3s; */
   }
 
   .node-header {
