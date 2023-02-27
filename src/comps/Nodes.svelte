@@ -16,11 +16,34 @@
     menuVisible = false;
   }
 
-  function handleBgClick(evt: MouseEvent) {
+  function handleContextMenu(evt: MouseEvent) {
     evt.preventDefault();
     // position menu to cursor
     menuPos = { x: evt.clientX, y: evt.clientY };
     menuVisible = true;
+  }
+
+  let zoom = 1;
+
+  function setZoom(z: number) {
+    zoom = Math.max(Math.min(1, z), 0.3);
+  }
+
+  let isDragging = false;
+  let x = 0;
+  let y = 0;
+
+  function onPointerMove(evt: MouseEvent) {
+    if (isDragging) {
+      x += evt.movementX;
+      y += evt.movementY;
+    }
+  }
+  function onPointerDown(evt: MouseEvent) {
+    isDragging = true;
+  }
+  function onWindowPointerUp(evt: MouseEvent) {
+    isDragging = false;
   }
 </script>
 
@@ -29,14 +52,28 @@
 {/if}
 
 {#if areNodesVisible}
-  <section class="nodes" transition:fade={{ duration: 100 }}>
-    <section class="nodes-editor" on:click={handleBgClick}>
+  <div class="nodes-scale" style={`transform: scale(${zoom});`}>
+    <div
+      class="nodes"
+      transition:fade={{ duration: 100 }}
+      style={`transform: translate(${x}px, ${y}px); cursor: ${
+        isDragging ? 'grabbing' : 'grab'
+      };`}
+      on:pointermove={onPointerMove}
+      on:pointerdown={onPointerDown}
+    />
+
+    <div class="nodes-editor" on:contextmenu={handleContextMenu}
+      style={`transform: translate(${x}px, ${y}px);`}
+    >
       {#each nodes as node}
         <NodeEditor {node} />
       {/each}
-    </section>
-  </section>
+    </div>
+  </div>
 {/if}
+
+<svelte:window on:pointerup={onWindowPointerUp} />
 
 <nav>
   {#if areNodesVisible}
@@ -77,17 +114,27 @@
       Show nodes
     </button>
   {/if}
+
+  <button on:click={() => setZoom(zoom + 0.1)}>Zoom in</button>
+  <button on:click={() => setZoom(zoom - 0.1)}>Zoom out</button>
 </nav>
 
 <style>
   .nodes {
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    z-index: 3;
+    top: calc(-100vh * 10);
+    left: calc(-100vw * 10);
+    height: calc(100vh * 20);
+    width: calc(100vw * 20);
     overflow: hidden;
+    background: url(/bg-dot.png);
+    cursor: grab;
+  }
+
+  .nodes-scale {
+    position: relative;
+    transition: all 0.3s;
+    z-index: 4;
   }
 
   .nodes-editor {
@@ -95,7 +142,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    cursor: crosshair;
+    cursor: drag;
   }
 
   nav {
