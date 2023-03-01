@@ -38,6 +38,7 @@ export default function createFragShader(
     // constants
     Time: () => 'u_time',
     Resolution: () => 'u_resolution',
+    Mouse: () => 'u_mouse',
     Number: (node: NodeNumber) => `${node.value}.0`,
   };
 

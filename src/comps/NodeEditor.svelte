@@ -336,7 +336,6 @@
   .node {
     width: 220px;
     position: absolute;
-    cursor: move;
     background-color: rgb(29 31 32 / 77%);
     margin-bottom: 10px;
     border-radius: 10px;
@@ -348,6 +347,7 @@
     background-color: rgb(19 21 21 / 34%);
     border-radius: 10px 10px 0px 0px;
     height: 40px;
+    cursor: grab;
   }
 
   .node-header input,

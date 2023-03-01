@@ -40,7 +40,9 @@
     }
   }
   function onPointerDown(evt: MouseEvent) {
-    isDragging = true;
+    if (evt.button === 0) {
+      isDragging = true;
+    }
   }
   function onWindowPointerUp(evt: MouseEvent) {
     isDragging = false;
@@ -61,11 +63,10 @@
       };`}
       on:pointermove={onPointerMove}
       on:pointerdown={onPointerDown}
+      on:contextmenu={handleContextMenu}
     />
 
-    <div class="nodes-editor" on:contextmenu={handleContextMenu}
-      style={`transform: translate(${x}px, ${y}px);`}
-    >
+    <div class="nodes-editor" style={`transform: translate(${x}px, ${y}px);`}>
       {#each nodes as node}
         <NodeEditor {node} />
       {/each}

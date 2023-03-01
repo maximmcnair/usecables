@@ -2,9 +2,11 @@ export const nodesWithOutputs = [
   'Wave',
   'Map',
   'Absolute',
+  // constants
+  'Mouse',
   'Resolution',
   'Time',
-  'Number'
+  'Number',
 ];
 
 // NOTE: make sure this is also in possibleNodeConnectors below
@@ -18,6 +20,7 @@ export const possibleNodeConnectors = {
   Map: ['input'],
   Absolute: ['input'],
   // constants
+  Mouse: [],
   Resolution: [],
   Time: [],
   Number: [],
