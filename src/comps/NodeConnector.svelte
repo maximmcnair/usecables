@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let x1: number;
-  export let y1: number;
-  export let x2: number;
-  export let y2: number;
+  import type { Position } from '$types';
+
+  export let start: Position;
+  export let end: Position;
 
   // todo refactor resize logic into a store
   let width = window.innerWidth;
@@ -17,10 +17,48 @@
   }
 
   onResize();
+
+  function createCurvedLinePath(start: Position, end: Position): string {
+    const curveAmount = 30;
+
+    const p1: Position = {
+      x: start.x,
+      y: start.y
+    };
+    const p2: Position = {
+      x: start.x + curveAmount,
+      y: start.y
+    };
+    const p3: Position = {
+      x: end.x - curveAmount,
+      y: end.y
+    };
+    const p4: Position = {
+      x: end.x,
+      y: end.y
+    };
+
+    return `
+  M ${p1.x}, ${p1.y}
+  C ${p2.x}, ${p2.y}
+    ${p3.x}, ${p3.y}
+    ${p4.x}, ${p4.y}
+`;
+    // NOTE this is a straight line
+    // return `M ${start.x}, ${start.y} L ${end.x}, ${end.y}`;
+  }
+
+  let curvedLinePath = createCurvedLinePath(start, end);
+  $: curvedLinePath = createCurvedLinePath(start, end);
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
-  <line {x1} {y1} {x2} {y2} stroke="var(--color-gold)" stroke-width="3" />
+  <path
+    fill="none"
+    d={curvedLinePath}
+    stroke="var(--color-gold)"
+    stroke-width="3"
+  />
 </svg>
 
 <style>

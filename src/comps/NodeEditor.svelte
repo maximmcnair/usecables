@@ -35,7 +35,7 @@
     // console.log('onDragMove', x, y);
     nodeUpdate(node.id, {
       editorX: shouldSnapToGrid ? snapToGrid(x) : x,
-      editorY: shouldSnapToGrid ? snapToGrid(y) : y,
+      editorY: shouldSnapToGrid ? snapToGrid(y) : y
     });
   }
   function onDragEnd(x: number, y: number) {
@@ -161,6 +161,16 @@
 {#each connectors as connector}
   {#if connector.origin && connector.target}
     <NodeConnector
+      start={{
+        x: connector.origin?.editorX + 220,
+        y: connector.origin?.editorY + 22
+      }}
+      end={{
+        x: connector.target?.editorX + 0,
+        y:
+          connector.target?.editorY +
+          boxPropConnectors[connector.target.type][connector.prop]
+      }}
       x1={connector.origin?.editorX + 220}
       y1={connector.origin?.editorY + 22}
       x2={connector.target?.editorX + 0}
