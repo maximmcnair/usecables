@@ -33,7 +33,7 @@
       const canvasOpts = {
         canvasWidth,
         canvasHeight,
-        bgColor: [19, 21, 21]
+        bgColor: [19, 21, 21] as [number, number, number]
       };
       const frag = createFragShader(canvasOpts, nodes, nodesObj);
       // console.log(frag);
