@@ -4,6 +4,7 @@
   export let height: number;
   export let width: number;
   export let canvas: HTMLCanvasElement;
+  export let fragShader: string;
 
   let isRecording = false;
 
@@ -12,6 +13,17 @@
     isRecording = true;
     await record(canvas);
     isRecording = false;
+  }
+
+  let showMsg = false;
+
+  async function exportShader() {
+    showMsg = true;
+    navigator.clipboard.writeText(fragShader);
+
+    setTimeout(() => {
+      showMsg = false;
+    }, 2000);
   }
 </script>
 
@@ -32,6 +44,12 @@
   {/if}
 </nav>
 
+<footer>
+  <button on:click={exportShader}>
+    {showMsg ? 'Copied to clipboard' : 'Export shader'}
+  </button>
+</footer>
+
 <style>
   .canvas-nav {
     position: absolute;
@@ -39,10 +57,12 @@
     right: 18px;
     z-index: 8;
     display: flex;
-    background-color: rgb(29 31 32 / 77%);
+    /* background-color: rgb(29 31 32 / 77%); */
+    background: rgba(13, 13, 13, 0.002);
+    backdrop-filter: blur(10px);
     padding: 10px 20px;
     border-radius: 10px;
-    width: 360px;
+    width: 280px;
   }
 
   .canvas-nav label {
@@ -77,5 +97,29 @@
     top: 0px;
     width: 100px;
     z-index: 4;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    z-index: 8;
+    display: flex;
+    /* background-color: rgb(29 31 32 / 77%); */
+    background: rgba(13, 13, 13, 0.002);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 10px;
+    width: 200px;
+  }
+
+  footer button {
+    background: transparent;
+    width: 200px;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
   }
 </style>

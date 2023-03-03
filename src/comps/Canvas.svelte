@@ -28,16 +28,15 @@
     }
   }
 
+  const canvasOpts = {
+    bgColor: [19, 21, 21] as [number, number, number]
+  };
+  let fragShader = createFragShader(canvasOpts, nodes, nodesObj);
+
   $: {
     if (sandbox) {
-      const canvasOpts = {
-        canvasWidth,
-        canvasHeight,
-        bgColor: [19, 21, 21] as [number, number, number]
-      };
-      const frag = createFragShader(canvasOpts, nodes, nodesObj);
-      // console.log(frag);
-      sandbox.load(frag);
+      fragShader = createFragShader(canvasOpts, nodes, nodesObj);
+      sandbox.load(fragShader);
     }
   }
 
@@ -50,13 +49,16 @@
 
     sandbox = new GlslCanvas(canvas);
     if (!sandbox) return;
-
-    sandbox.setUniform('seed', Math.random());
   });
 </script>
 
 {#if canvas}
-  <Header bind:width={canvasWidth} bind:height={canvasHeight} {canvas} />
+  <Header
+    bind:width={canvasWidth}
+    bind:height={canvasHeight}
+    {canvas}
+    {fragShader}
+  />
 {/if}
 
 <div class="container">

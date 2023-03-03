@@ -12,8 +12,6 @@ import type {
 } from '../types';
 
 interface CanvasOpts {
-  canvasWidth: number;
-  canvasHeight: number;
   bgColor: [number, number, number];
 }
 
@@ -39,7 +37,7 @@ export default function createFragShader(
     Time: () => 'u_time',
     Resolution: () => 'u_resolution',
     Mouse: () => 'u_mouse',
-    Number: (node: NodeNumber) => `${node.value}.0`,
+    Number: (node: NodeNumber) => `${node.value}.0`
   };
 
   function processNode(nodeId: string, fallback: string) {
@@ -59,9 +57,9 @@ export default function createFragShader(
 
   function renderWave(node: NodeWave): string {
     const n = node as NodeWave;
-    return `${numberToFloat(n.amplitude)} * ${
-      n.waveform
-    }(${nodeOrVal(n.input)} / ${numberToFloat(n.frequency)})`;
+    return `${numberToFloat(n.amplitude)} * ${n.waveform}(${nodeOrVal(
+      n.input
+    )} / ${numberToFloat(n.frequency)})`;
   }
 
   function renderAbsolute(node: Node): string {
@@ -157,11 +155,13 @@ void main() {
 `;
       }
 
-      if (node.type === 'Noise'){
+      if (node.type === 'Noise') {
         const n = node as NodeNoise;
         return `
           vec4 noiseLayer = noise(uv);
-          gl_FragColor = mix(gl_FragColor, noiseLayer, ${numberToFloat(node.strength || 0)});
+          gl_FragColor = mix(gl_FragColor, noiseLayer, ${numberToFloat(
+            node.strength || 0
+          )});
         `;
       }
 
