@@ -171,11 +171,6 @@
           connector.target?.editorY +
           boxPropConnectors[connector.target.type][connector.prop]
       }}
-      x1={connector.origin?.editorX + 220}
-      y1={connector.origin?.editorY + 22}
-      x2={connector.target?.editorX + 0}
-      y2={connector.target?.editorY +
-        boxPropConnectors[connector.target.type][connector.prop]}
     />
   {/if}
 {/each}
@@ -277,6 +272,7 @@
         value={node.amplitude}
         min={1}
         max={600}
+        step={1}
         onUpdate={(val) => nodeUpdate(node.id, { amplitude: val })}
       />
       <NodeEditorRange
@@ -284,6 +280,7 @@
         value={node.frequency}
         min={1}
         max={10}
+        step={0.1}
         onUpdate={(val) => nodeUpdate(node.id, { frequency: val })}
       />
     {/if}
