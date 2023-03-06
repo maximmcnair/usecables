@@ -1,7 +1,3 @@
-<script context="module">
-  import { asDraggable } from 'svelte-drag-and-drop-actions';
-</script>
-
 <script lang="ts">
   import type { Node, Position } from '$types';
   import { createCurvedLinePath } from '$lib/createCurvedLine';
@@ -15,6 +11,8 @@
   let end: Position = {
     x: x - 8,
     y: y - 8,
+    // x: x,
+    // y: y,
   };
 
   let isDragging = false;
@@ -40,45 +38,36 @@
 
   let curvedLinePath = createCurvedLinePath(start, end);
   $: curvedLinePath = createCurvedLinePath(start, end);
-
-  function onDragStart(){
-    // console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
-    // isDragging = true;
-    // if (evt?.dataTransfer) {
-    //   evt.dataTransfer.dropEffect = 'move';
-    //   // evt.dataTransfer.dropEffect = 'link';
-    //   evt.dataTransfer.setData('text', node.id);
-    //   if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
-    //     evt.dataTransfer.setDragImage(new Image(), 0, 0);
-    //   }
-    // }
-    return {
-      x: x,
-      y: y
-    };
-  }
-  function onDragMove(x: number, y: number){
-    // console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
-    // if (evt.x !== 0 && evt.y !== 0) {
-      end.x = x - boardPos.x;
-      end.y = y - boardPos.y;
-    // }
-  }
-  function onDragEnd(x: number, y: number){
-    // console.log('ConnectorOrigin on:dragend');
-    // isDragging = false;
-    end.x = x - 8;
-    end.y = y - 8;
-  }
 </script>
 
 <div
   class="connector-handle"
   style={`top: ${end.y}px; left: ${end.x}px; z-index: 55;`}
-  use:asDraggable={{
-    onDragStart,
-    onDragMove,
-    onDragEnd
+  draggable="true"
+  on:drag={(evt) => {
+    console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
+    if (evt.x !== 0 && evt.y !== 0) {
+      end.x = evt.x - boardPos.x;
+      end.y = evt.y - boardPos.y;
+    }
+  }}
+  on:dragstart={(evt) => {
+    console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
+    isDragging = true;
+    if (evt?.dataTransfer) {
+      evt.dataTransfer.dropEffect = 'move';
+      // evt.dataTransfer.dropEffect = 'link';
+      evt.dataTransfer.setData('text', node.id);
+      if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
+        evt.dataTransfer.setDragImage(new Image(), 0, 0);
+      }
+    }
+  }}
+  on:dragend={() => {
+    console.log('ConnectorOrigin on:dragend');
+    isDragging = false;
+    end.x = x - 8;
+    end.y = y - 8;
   }}
 />
 
