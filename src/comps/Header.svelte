@@ -81,6 +81,7 @@
 
 <style>
   .canvas-nav {
+    user-select: none;
     position: absolute;
     top: 18px;
     right: 18px;
