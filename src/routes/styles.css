@@ -132,10 +132,17 @@ a:hover {
   text-decoration: underline;
 }
 
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
 input[type='range'] {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
+  height: 30px;
 }
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -169,7 +176,7 @@ input[type='range']::-webkit-slider-thumb {
 input[type='range']::-moz-range-thumb {
   cursor: pointer;
   /* margin-top: -12px; */
-  /* height: 30px; */
+  height: 30px;
   /* width: 30px; */
   margin-top: -7px;
   height: 20px;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  let show = false;
+  let show = true;
   let slide = 1;
 
   /*
@@ -8,7 +8,7 @@
 - Right click to create node
 - Drag connectors to connect nodes
 - Navigate nodes with scroll and zoom
-
+http://localhost:5173/
   */
 
   function hideOnBoarding() { show = false }
@@ -23,6 +23,7 @@
     <div class="content">
       {#if slide === 1}
         <div class="slide">
+          <img class="slide__img" src="/cables-onboarding-1.png" />
           <div class="slide__content">
             <h2>Welcome to Cables</h2>
             <h4>Cables is a non-code animation tool.</h4>
@@ -33,6 +34,7 @@
       {/if}
       {#if slide === 2}
         <div class="slide">
+          <img class="slide__img" src="/cables-onboarding-4.png" />
           <div class="slide__content">
             <h3>Create nodes with right click</h3>
             <h4>Pick node type from drop down selection</h4>
@@ -42,6 +44,7 @@
       {/if}
       {#if slide === 3}
         <div class="slide">
+          <img class="slide__img" src="/cables-onboarding-3.png" />
           <div class="slide__content">
             <h3>Connect nodes by dragging connections</h3>
             <h4>Data flows between nodes. Make connections to direct the flow of the data.</h4>
@@ -51,6 +54,7 @@
       {/if}
       {#if slide === 4}
         <div class="slide">
+          <img class="slide__img" src="/cables-onboarding-2.png" />
           <div class="slide__content">
             <h3>Delete nodes</h3>
             <h4>Right click on a node to delete it</h4>
@@ -70,20 +74,21 @@
     left: 0px;
     right: 0px;
     display: flex;
-    z-index: 9999;
     justify-content: center;
     align-items: center;
-    background: rgba(13, 13, 13, 0.002);
+    z-index: 9999;
+    background: rgba(13, 13, 13, 0.6);
     backdrop-filter: blur(1px);
   }
   .content {
     background: var(--color-black);
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 640px;
     margin-top: -50px;
     border: 1px solid var(--color-grey);
     border-radius: 5px;
     text-align: center;
+    overflow: hidden;
   }
 
   h2 {
@@ -106,7 +111,10 @@
     color: var(--color-grey-light);
   }
 
+  .slide__img {
+    height: 400px;
+  }
   .slide__content {
-    padding: 20px;
+    padding: 10px 20px;
   }
 </style>
