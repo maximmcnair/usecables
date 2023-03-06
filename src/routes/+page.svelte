@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import type { Node, NodesObj } from '$types';
   import Nodes from '$comps/Nodes.svelte';
-  // import OnBoarding from '$comps/OnBoarding.svelte';
+  import OnBoarding from '$comps/OnBoarding.svelte';
   import nodesStore from '$stores/nodes';
 
   let nodes: Node[] = [];
@@ -28,8 +28,9 @@
   <meta name="description" content="" />
 </svelte:head>
 
-<!-- <OnBoarding /> -->
+<OnBoarding />
 
 <Nodes {nodes} {nodesObj} />
 
 <svelte:component this={canvas} {nodes} {nodesObj} />
+
