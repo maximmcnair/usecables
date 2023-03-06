@@ -54,23 +54,23 @@
       evt.dataTransfer.dropEffect = 'move';
       // evt.dataTransfer.dropEffect = 'link';
       evt.dataTransfer.setData('text', node.id);
-      if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
-        evt.dataTransfer.setDragImage(new Image(), 0, 0);
-      }
+      // if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
+      //   evt.dataTransfer.setDragImage(new Image(), 0, 0);
+      // }
     }
   }}
   on:drag={(evt) => {
     console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
-    if (evt.x !== 0 && evt.y !== 0) {
-      endTemp.x = evt.x - boardPos.x;
-      endTemp.y = evt.y - boardPos.y;
-    }
+    // if (evt.x !== 0 && evt.y !== 0) {
+    //   endTemp.x = evt.x - boardPos.x;
+    //   endTemp.y = evt.y - boardPos.y;
+    // }
   }}
   on:dragend={() => {
     console.log('ConnectorOrigin on:dragend');
     isDragging = false;
-    end.x = x - 8;
-    end.y = y - 8;
+    // end.x = x - 8;
+    // end.y = y - 8;
   }}
 />
 
