@@ -9,16 +9,18 @@
   export let start: Position;
 
   let end: Position = {
-    x: x - 8,
-    y: y - 8,
+    // x: x - 8,
+    // y: y - 8,
+    x: x,
+    y: y,
   };
 
   let isDragging = false;
 
-  $: {
-    end.x = x - 8;
-    end.y = y - 8;
-  }
+  // $: {
+  //   end.x = x - 8;
+  //   end.y = y - 8;
+  // }
 
   // todo refactor resize logic into a store
   let width = window.innerWidth;
@@ -56,7 +58,7 @@
       evt.dataTransfer.dropEffect = 'move';
       // evt.dataTransfer.dropEffect = 'link';
       evt.dataTransfer.setData('text', node.id);
-      if (!navigator.userAgent.indexOf('Firefox') != -1) {
+      if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
         evt.dataTransfer.setDragImage(new Image(), 0, 0);
       }
     }
