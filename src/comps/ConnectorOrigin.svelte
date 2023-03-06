@@ -69,6 +69,17 @@
   }}
 />
 
+{#if isDragging}
+  <svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
+    <path
+      fill="none"
+      d={curvedLinePath}
+      stroke="var(--color-gold)"
+      stroke-width="3"
+    />
+  </svg>
+{/if}
+
 <style>
   .connector-handle {
     position: absolute;
