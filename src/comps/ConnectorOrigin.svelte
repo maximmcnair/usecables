@@ -53,11 +53,12 @@
     console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
     isDragging = true;
     if (evt?.dataTransfer) {
+      evt.dataTransfer.dropEffect = 'move';
+      // evt.dataTransfer.dropEffect = 'link';
       evt.dataTransfer.setData('text', node.id);
       if (!navigator.userAgent.indexOf('Firefox') != -1) {
         evt.dataTransfer.setDragImage(new Image(), 0, 0);
       }
-      evt.dataTransfer.dropEffect = 'link';
     }
   }}
   on:dragend={() => {
@@ -67,17 +68,6 @@
     end.y = y - 8;
   }}
 />
-
-{#if isDragging}
-  <svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
-    <path
-      fill="none"
-      d={curvedLinePath}
-      stroke="var(--color-gold)"
-      stroke-width="3"
-    />
-  </svg>
-{/if}
 
 <style>
   .connector-handle {
