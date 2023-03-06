@@ -8,18 +8,21 @@
   export let boardPos: Position;
   export let start: Position;
 
+  let isDragging = false;
   let end: Position = {
     x: x - 8,
     y: y - 8,
-    // x: x,
-    // y: y,
   };
-
-  let isDragging = false;
+  let endTemp: Position = {
+    x: x - 8,
+    y: y - 8,
+  };
 
   $: {
     end.x = x - 8;
     end.y = y - 8;
+    endTemp.x = x - 8;
+    endTemp.y = y - 8;
   }
 
   // todo refactor resize logic into a store
@@ -36,38 +39,38 @@
 
   onResize();
 
-  let curvedLinePath = createCurvedLinePath(start, end);
-  $: curvedLinePath = createCurvedLinePath(start, end);
+  let curvedLinePath = createCurvedLinePath(start, endTemp);
+  $: curvedLinePath = createCurvedLinePath(start, endTemp);
 </script>
 
 <div
   class="connector-handle"
   style={`top: ${end.y}px; left: ${end.x}px; z-index: 55;`}
   draggable="true"
-  on:drag={(evt) => {
-    console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
-    // if (evt.x !== 0 && evt.y !== 0) {
-    //   end.x = evt.x - boardPos.x;
-    //   end.y = evt.y - boardPos.y;
-    // }
-  }}
   on:dragstart={(evt) => {
     console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
-    // isDragging = true;
-    // if (evt?.dataTransfer) {
-    //   evt.dataTransfer.dropEffect = 'move';
-    //   // evt.dataTransfer.dropEffect = 'link';
-    //   evt.dataTransfer.setData('text', node.id);
-    //   if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
-    //     evt.dataTransfer.setDragImage(new Image(), 0, 0);
-    //   }
-    // }
+    isDragging = true;
+    if (evt?.dataTransfer) {
+      evt.dataTransfer.dropEffect = 'move';
+      // evt.dataTransfer.dropEffect = 'link';
+      evt.dataTransfer.setData('text', node.id);
+      if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
+        evt.dataTransfer.setDragImage(new Image(), 0, 0);
+      }
+    }
+  }}
+  on:drag={(evt) => {
+    console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
+    if (evt.x !== 0 && evt.y !== 0) {
+      endTemp.x = evt.x - boardPos.x;
+      endTemp.y = evt.y - boardPos.y;
+    }
   }}
   on:dragend={() => {
     console.log('ConnectorOrigin on:dragend');
-    // isDragging = false;
-    // end.x = x - 8;
-    // end.y = y - 8;
+    isDragging = false;
+    end.x = x - 8;
+    end.y = y - 8;
   }}
 />
 
