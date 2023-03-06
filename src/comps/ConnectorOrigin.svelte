@@ -43,12 +43,14 @@
   style={`top: ${end.y}px; left: ${end.x}px; z-index: 55;`}
   draggable="true"
   on:drag={(evt) => {
+    console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
     if (evt.x !== 0 && evt.y !== 0) {
       end.x = evt.x - boardPos.x;
       end.y = evt.y - boardPos.y;
     }
   }}
   on:dragstart={(evt) => {
+    console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
     isDragging = true;
     if (evt?.dataTransfer) {
       evt.dataTransfer.setData('text', node.id);
@@ -59,6 +61,7 @@
     }
   }}
   on:dragend={() => {
+    console.log('ConnectorOrigin on:dragend');
     isDragging = false;
     end.x = x - 8;
     end.y = y - 8;
