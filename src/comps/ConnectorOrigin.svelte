@@ -86,7 +86,7 @@
     width: 16px;
     background: var(--color-gold);
     border-radius: 10px;
-    z-index: 99;
+    z-index: 999;
     cursor: draggable;
   }
 
@@ -97,7 +97,7 @@
     left: 0px;
     right: 0px;
     overflow: visible;
-    z-index: 999;
+    z-index: 99;
     pointer-events: none;
   }
 </style>
