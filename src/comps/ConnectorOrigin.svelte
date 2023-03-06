@@ -51,8 +51,8 @@
     console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
     isDragging = true;
     if (evt?.dataTransfer) {
-      evt.dataTransfer.dropEffect = 'move';
-      // evt.dataTransfer.dropEffect = 'link';
+      // evt.dataTransfer.dropEffect = 'move';
+      evt.dataTransfer.dropEffect = 'link';
       evt.dataTransfer.setData('text', node.id);
       // if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
       //   evt.dataTransfer.setDragImage(new Image(), 0, 0);
