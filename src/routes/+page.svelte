@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import type { Node, NodesObj } from '$types';
   import Nodes from '$comps/Nodes.svelte';
+  // import OnBoarding from '$comps/OnBoarding.svelte';
   import nodesStore from '$stores/nodes';
 
   let nodes: Node[] = [];
@@ -26,6 +27,8 @@
   <title>Cables</title>
   <meta name="description" content="" />
 </svelte:head>
+
+<!-- <OnBoarding /> -->
 
 <Nodes {nodes} {nodesObj} />
 

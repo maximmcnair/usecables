@@ -1,17 +1,23 @@
 <script lang="ts">
-  import type { Node } from '$types';
+  import type { Node, Position } from '$types';
+  import { createCurvedLinePath } from '$lib/createCurvedLine';
 
   export let x: number;
   export let y: number;
   export let node: Node;
+  export let boardPos: Position;
+  export let start: Position;
 
-  let handleX = x - 8;
-  let handleY = y - 8;
+  let end: Position = {
+    x: x - 8,
+    y: y - 8,
+  };
+
   let isDragging = false;
 
   $: {
-    handleX = x - 8;
-    handleY = y - 8;
+    end.x = x - 8;
+    end.y = y - 8;
   }
 
   // todo refactor resize logic into a store
@@ -28,24 +34,21 @@
 
   onResize();
 
-  // $: console.log(handleX, handleY, x, y);
+  let curvedLinePath = createCurvedLinePath(start, end);
+  $: curvedLinePath = createCurvedLinePath(start, end);
 </script>
 
 <div
   class="connector-handle"
-  style={`top: ${handleY}px; left: ${handleX}px; z-index: 55;`}
+  style={`top: ${end.y}px; left: ${end.x}px; z-index: 55;`}
   draggable="true"
   on:drag={(evt) => {
-    // console.log(evt.x, evt.y, evt.layerX, evt.layerY, evt);
     if (evt.x !== 0 && evt.y !== 0) {
-      handleX = evt.x;
-      handleY = evt.y;
-      // handleX = evt.x - 8;
-      // handleY = evt.y - 8;
+      end.x = evt.x - boardPos.x;
+      end.y = evt.y - boardPos.y;
     }
   }}
   on:dragstart={(evt) => {
-    // console.log('dragstart', evt)
     isDragging = true;
     if (evt?.dataTransfer) {
       evt.dataTransfer.setData('text', node.id);
@@ -56,20 +59,17 @@
     }
   }}
   on:dragend={() => {
-    // console.log('dragend');
     isDragging = false;
-    handleX = x - 8;
-    handleY = y - 8;
+    end.x = x - 8;
+    end.y = y - 8;
   }}
 />
 
 {#if isDragging}
   <svg viewBox={`0 0 ${width} ${height}`} class="node-connector">
-    <line
-      x1={x}
-      y1={y}
-      x2={handleX + 8}
-      y2={handleY + 8}
+    <path
+      fill="none"
+      d={curvedLinePath}
       stroke="var(--color-gold)"
       stroke-width="3"
     />

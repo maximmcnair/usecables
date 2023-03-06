@@ -30,13 +30,12 @@
   }
 
   let isDragging = false;
-  let x = 0;
-  let y = 0;
+  let boardPos: Position = { x: 0, y: 0 };
 
   function onPointerMove(evt: MouseEvent) {
     if (isDragging) {
-      x += evt.movementX;
-      y += evt.movementY;
+      boardPos.x += evt.movementX;
+      boardPos.y += evt.movementY;
     }
   }
   function onPointerDown(evt: MouseEvent) {
@@ -58,7 +57,7 @@
     <div
       class="nodes"
       transition:fade={{ duration: 100 }}
-      style={`transform: translate(${x}px, ${y}px); cursor: ${
+      style={`transform: translate(${boardPos.x}px, ${boardPos.y}px); cursor: ${
         isDragging ? 'grabbing' : 'grab'
       };`}
       on:pointermove={onPointerMove}
@@ -66,9 +65,9 @@
       on:contextmenu={handleContextMenu}
     />
 
-    <div class="nodes-editor" style={`transform: translate(${x}px, ${y}px);`}>
+    <div class="nodes-editor" style={`transform: translate(${boardPos.x}px, ${boardPos.y}px);`}>
       {#each nodes as node}
-        <NodeEditor {node} />
+        <NodeEditor {node} boardPos={boardPos}/>
       {/each}
     </div>
   </div>

@@ -21,6 +21,7 @@
   import { snapToGrid } from '$lib/snapToGrid';
 
   export let node: Node;
+  export let boardPos: Position;
 
   let shouldSnapToGrid = false;
 
@@ -185,11 +186,15 @@
 {/each}
 
 {#if nodesWithOutputs.includes(node.type)}
-  <ConnectorOrigin x={node.editorX + 220} y={node.editorY + 20} {node} />
+  <ConnectorOrigin start={{
+    x: node.editorX + 220, 
+    y: node.editorY + 20
+  }}
+    x={node.editorX + 220} y={node.editorY + 20} {node} {boardPos} />
 {/if}
 
 {#if menuVisible}
-  <Menu x={menuPos.x} y={menuPos.y} on:close={closeMenu}>
+  <Menu x={menuPos.x - boardPos.x} y={menuPos.y - boardPos.y} on:close={closeMenu}>
     <span class="menu-option" on:click={() => deleteNode()}>Delete node</span>
   </Menu>
 {/if}
