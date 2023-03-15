@@ -1,17 +1,19 @@
-<script lang="ts">
-  let show = true;
+<script lang="ts"> 
+  import { browser } from "$app/environment";
+
+  let show = false;
   let slide = 1;
 
-  /*
+  if (browser){
+    if (localStorage.getItem('cables-onboarding-hide') !== 'true') {
+      show = true;
+    }
+  }
 
-- Welcome to cables
-- Right click to create node
-- Drag connectors to connect nodes
-- Navigate nodes with scroll and zoom
-http://localhost:5173/
-  */
-
-  function hideOnBoarding() { show = false }
+  function hideOnBoarding() { 
+    show = false;
+    localStorage.setItem('cables-onboarding-hide', 'true');
+  }
 
   function nextSlide () {
     slide = slide + 1;
