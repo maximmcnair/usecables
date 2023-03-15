@@ -6,6 +6,7 @@ export type NodeTypeAbsolute = 'Absolute';
 export type NodeTypeNumber = 'Number';
 export type NodeTypeNoise = 'Noise';
 export type NodeTypeTime = 'Time';
+export type NodeTypeColor = 'Color';
 export type NodeType =
   | NodeTypeBox
   | NodeTypeWave
@@ -14,7 +15,8 @@ export type NodeType =
   | NodeTypeNumber
   | NodeTypeAbsolute
   | NodeTypeNoise
-  | NodeTypeTime;
+  | NodeTypeTime
+  | NodeTypeColor;
 
 export interface NodeRoot {
   id: string;
@@ -85,6 +87,11 @@ export interface NodeTime extends NodeRoot {
   type: NodeTypeTime;
 }
 
+export interface NodeColor extends NodeRoot {
+  type: NodeTypeColor;
+  color: Color;
+}
+
 export type Node =
   | NodeBox
   | NodeWave
@@ -93,7 +100,8 @@ export type Node =
   | NodeAbsolute
   | NodeNumber
   | NodeNoise
-  | NodeTime;
+  | NodeTime
+  | NodeColor;
 
 export type NodesObj = Record<string, Node>;
 
@@ -107,3 +115,5 @@ export interface Position {
   x: number;
   y: number;
 }
+
+export type DataType = 'scalar' | 'vec2' | 'vec3';

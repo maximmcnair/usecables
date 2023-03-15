@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { nodeCreate } from '$stores/nodes';
-  import type { NodeType, NodeBox } from '$types';
+  import type { NodeType, Node } from '$types';
   import colors from '$lib/colors';
   import Menu from './Menu.svelte';
 
@@ -14,87 +14,105 @@
     dispatch('close');
   }
 
-  async function createNode(type: NodeType) {
+  async function createNode(title: string, type: NodeType, defaults: Node) {
     dispatch('close');
-    if (type === 'Box') {
-      return nodeCreate({
-        type: 'Box',
-        name: 'Box',
+    // default
+    return nodeCreate({
+      type: type,
+      name: title,
+      editorX: x,
+      editorY: y,
+      ...defaults
+    });
+  }
+
+  const shapes = [
+    { title: 'Box',
+      type: 'Box',
+      defaults: {
         x: 0,
         y: 10,
         width: 100,
         height: 100,
         color: colors.purple,
-        editorX: x,
-        editorY: y
-      } as Omit<NodeBox, 'id'>);
-    }
-    if (type === 'Circle') {
-      return nodeCreate({
-        type: 'Circle',
-        name: 'Circle',
+      },
+    },
+    { title: 'Circle',
+      type: 'Circle',
+      defaults: {
         x: 200,
         y: 200,
         radius: 200,
         color: colors.red,
-        editorX: x,
-        editorY: y
-      });
+      },
     }
-    if (type === 'Wave') {
-      return nodeCreate({
-        type: 'Wave',
-        name: 'Wave',
+  ];
+
+  const math = [
+    { title: 'Wave',
+      type: 'Wave',
+      defaults: {
         waveform: 'sin',
         period: 10,
         amplitude: 122,
         frequency: 2,
         offset: 0,
         phase: 0,
-        editorX: x,
-        editorY: y
-      });
-    }
-    if (type === 'Map') {
-      return nodeCreate({
-        type: 'Map',
-        name: 'Map',
-        editorX: x,
-        editorY: y,
+      }
+    },
+    { title: 'Map',
+      type: 'Map',
+      defaults: {
         input: 100,
         min1: 10,
         max1: 100,
         min2: 10,
         max2: 100
-      });
-    }
-    if (type === 'Number') {
-      return nodeCreate({
-        type: 'Number',
-        name: 'Number',
-        editorX: x,
-        editorY: y,
-        value: 10
-      });
-    }
-    if (type === 'Noise') {
-      return nodeCreate({
-        type: 'Noise',
-        name: 'Noise',
-        editorX: x,
-        editorY: y,
+      }
+    },
+    { title: 'Absolute',
+      type: 'Absolute',
+      defaults: {}
+    },
+  ];
+
+  const constants = [
+    // { title: 'Canvas Size',
+    //   type: 'Resolution',
+    //   defaults: {}
+    // },
+    { title: 'Time',
+      type: 'Time',
+      defaults: {}
+    },
+    { title: 'Color',
+      type: 'Color',
+      defaults: {
+        rgb: colors.blue,
+      }
+    },
+    // { title: 'Mouse',
+    //   type: 'Mouse',
+    //   defaults: {}
+    // },
+    { title: 'Number',
+      type: 'Number',
+      defaults: {}
+    },
+    // { title: 'Vector',
+    //   type: 'Vector',
+    //   defaults: {}
+    // },
+  ];
+
+  const effects = [
+    { title: 'Noise',
+      type: 'Noise',
+      defaults: {
         strength: 0.1
-      });
-    }
-    // default
-    return nodeCreate({
-      type: type,
-      name: type,
-      editorX: x,
-      editorY: y
-    });
-    dispatch('close');
-  }
+      }
+    },
+  ];
 </script>
 
 <Menu {x} {y}>
@@ -105,35 +123,35 @@
       </div>
       <div class="creator-col">
         <small class="menu-title">Shapes</small>
-        <span class="menu-option" on:click={() => createNode('Circle')}
-          >Circle</span
-        >
-        <span class="menu-option" on:click={() => createNode('Box')}>Box</span>
+        {#each shapes as node}
+          <span class="menu-option" on:click={() => createNode(node.title, node.type, node.defaults)}
+            >{node.title}</span
+          >
+        {/each}
       </div>
       <div class="creator-col">
         <small class="menu-title">Math</small>
-        <span class="menu-option" on:click={() => createNode('Wave')}>Wave</span
-        >
-        <span class="menu-option" on:click={() => createNode('Map')}>Map</span>
-        <span class="menu-option" on:click={() => createNode('Absolute')}
-          >Absolute</span
-        >
+        {#each math as node}
+          <span class="menu-option" on:click={() => createNode(node.title, node.type, node.defaults)}
+            >{node.title}</span
+          >
+        {/each}
       </div>
       <div class="creator-col">
         <small class="menu-title">Constants</small>
-        <!-- <span on:click={() => createNode('Resolution')}>Resolution</span> -->
-        <span class="menu-option" on:click={() => createNode('Time')}>Time</span
-        >
-        <!-- <span class="menu-option" on:click={() => createNode('Mouse')}>Mouse</span> -->
-        <span class="menu-option" on:click={() => createNode('Number')}
-          >Number</span
-        >
+        {#each constants as node}
+          <span class="menu-option" on:click={() => createNode(node.title, node.type, node.defaults)}
+            >{node.title}</span
+          >
+        {/each}
       </div>
       <div class="creator-col">
         <small class="menu-title">Effects</small>
-        <span class="menu-option" on:click={() => createNode('Noise')}
-          >Noise</span
-        >
+        {#each effects as node}
+          <span class="menu-option" on:click={() => createNode(node.title, node.type, node.defaults)}
+            >{node.title}</span
+          >
+        {/each}
       </div>
     </div>
   </div>

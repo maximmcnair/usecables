@@ -7,14 +7,15 @@ export const nodesWithOutputs = [
   'Resolution',
   'Time',
   'Number',
+  'Color'
 ];
 
 // NOTE: make sure this is also in possibleNodeConnectors below
 export const nodesWithInputs = ['Wave', 'Map', 'Absolute'];
 
 export const possibleNodeConnectors = {
-  Box: ['height', 'width', 'x', 'y'],
-  Circle: ['radius', 'x', 'y'],
+  Box: ['height', 'width', 'color', 'x', 'y'],
+  Circle: ['radius', 'color', 'x', 'y'],
   // Math
   Wave: ['input'],
   Map: ['input'],
@@ -24,6 +25,7 @@ export const possibleNodeConnectors = {
   Resolution: [],
   Time: [],
   Number: [],
+  Color: [],
   // effects
   Noise: [],
 };

@@ -32,6 +32,7 @@
 	"type": "module",
 	"dependencies": {
 		"glslCanvas": "^0.2.6",
+		"svelte-color-picker": "^1.0.7",
 		"svelte-drag-and-drop-actions": "^1.0.0",
 		"svelte-drag-drop-touch": "^0.1.9"
 	}

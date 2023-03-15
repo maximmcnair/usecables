@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Node, Position } from '$types';
+  import type { DataType, Node, Position } from '$types';
   import { createCurvedLinePath } from '$lib/createCurvedLine';
 
   export let x: number;
@@ -7,6 +7,7 @@
   export let node: Node;
   export let boardPos: Position;
   export let start: Position;
+  export let dataType: DataType;
 
   let isDragging = false;
   let end: Position = {
@@ -48,26 +49,27 @@
   style={`top: ${end.y}px; left: ${end.x}px; z-index: 55;`}
   draggable="true"
   on:dragstart={(evt) => {
-    console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
+    // console.log('ConnectorOrigin on:dragstart', evt.x, evt.y, boardPos)
     isDragging = true;
     if (evt?.dataTransfer) {
       // evt.dataTransfer.dropEffect = 'move';
       evt.dataTransfer.dropEffect = 'link';
       evt.dataTransfer.setData('text', node.id);
+      evt.dataTransfer.setData('dataType', dataType);
       // if (!(navigator.userAgent.indexOf('Firefox') != -1)) {
       //   evt.dataTransfer.setDragImage(new Image(), 0, 0);
       // }
     }
   }}
   on:drag={(evt) => {
-    console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
+    // console.log('ConnectorOrigin on:drag', evt.x, evt.y, boardPos)
     if (evt.x !== 0 && evt.y !== 0) {
       endTemp.x = evt.x - boardPos.x;
       endTemp.y = evt.y - boardPos.y;
     }
   }}
   on:dragend={() => {
-    console.log('ConnectorOrigin on:dragend');
+    // console.log('ConnectorOrigin on:dragend');
     isDragging = false;
     end.x = x - 8;
     end.y = y - 8;

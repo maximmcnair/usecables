@@ -6,9 +6,11 @@ import type {
   NodeMap,
   NodeNumber,
   Color,
+  NodeColor,
   NodeCircle,
   NodeAbsolute,
-  NodeNoise
+  NodeNoise,
+  DataType,
 } from '../types';
 
 interface CanvasOpts {
@@ -37,7 +39,8 @@ export default function createFragShader(
     Time: () => 'u_time',
     Resolution: () => 'u_resolution',
     Mouse: () => 'u_mouse',
-    Number: (node: NodeNumber) => `${node.value}.0`
+    Number: (node: NodeNumber) => `${node.value}.0`,
+    Color: (node: NodeColor) => colorToVec3(node.color)
   };
 
   function processNode(nodeId: string, fallback: string) {
@@ -48,7 +51,14 @@ export default function createFragShader(
     return nodeFn(node as Node);
   }
 
-  function nodeOrVal(val: string | number | undefined) {
+  function nodeOrVal(val: string | number | undefined, type?: 'color') {
+    // default
+    if (type === 'color') {
+      return typeof val === 'string'
+        ? processNode(val, '1.0')
+        : colorToVec3(val);
+    }
+    // default to float
     if (!val) return '1.0';
     return typeof val === 'string'
       ? processNode(val, '1.0')
@@ -130,7 +140,7 @@ void main() {
   // Rectangle
   float ${n.id}Width = ${nodeOrVal(n.width)};
   float ${n.id}Height = ${nodeOrVal(n.height)};
-  vec3 ${n.id}Color = ${colorToVec3(n.color)};
+  vec3 ${n.id}Color = ${nodeOrVal(n.color, 'color')};
   vec2 ${n.id}XY = vec2(uv.x, uv.y);
   ${n.id}XY.x += ${nodeOrVal(n.x)};
   ${n.id}XY.y += ${nodeOrVal(n.y)};
@@ -169,7 +179,18 @@ void main() {
     })
     .join('')}
 
-}`;
+	// vec2 uv = gl_FragCoord.xy;
+	// vec2 center = u_resolution.xy * 0.5;
+
+  // vec2 x = vec2(0.5, 0.5);
+  // vec2 mouse = (u_mouse.xy / u_resolution.xy);
+  // vec2 grad = 2.0 * (mouse-x);
+  // vec2 dist = (gl_FragCoord.xy / u_resolution.xy) - x;
+  // vec3 col = vec3(dot(grad, dist, mouse) * 2.);
+  // gl_FragColor = vec4(col, 1.0);
+}
+
+`;
 }
 
 /*

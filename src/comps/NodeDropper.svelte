@@ -1,8 +1,11 @@
 <script lang="ts">
+  import type { DataType } from "$types";
+
   export let x: number;
   export let y: number;
   export let prop: string;
   export let createConnection: any;
+  export let dataTypes: DataType[];
 </script>
 
 <div
@@ -14,7 +17,9 @@
   on:drop={(evt) => {
     evt.preventDefault();
     if (evt?.dataTransfer) {
-      createConnection(evt.dataTransfer.getData('text'));
+      if (dataTypes.includes(evt.dataTransfer.getData('dataType'))) {
+        createConnection(evt.dataTransfer.getData('text'));
+      }
     }
   }}
 />

@@ -6,4 +6,14 @@ const colors: Record<string, Color> = {
   red: [229, 56, 59]
 };
 
+
+export function componentToHex(c: number) {
+  let hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function rgbToHex(r: number, g: number, b: number) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
 export default colors;

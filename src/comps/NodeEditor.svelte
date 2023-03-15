@@ -4,7 +4,8 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Node, NodeType, NodesObj, Position } from '$types';
+  import { HsvPicker } from 'svelte-color-picker';
+  import type { Node, NodeType, NodesObj, Position, DataType } from '$types';
   import nodesStore, { nodeDelete, nodeUpdate } from '$stores/nodes';
   import ConnectorOrigin from './ConnectorOrigin.svelte';
   import NodeConnector from './NodeConnector.svelte';
@@ -12,6 +13,7 @@
   import NodeEditorSelect from './NodeEditorSelect.svelte';
   import NodeEditorRange from './NodeEditorRange.svelte';
   import NodeEditorNumber from './NodeEditorNumber.svelte';
+  import NodeEditorBlank from './NodeEditorBlank.svelte';
   import Menu from './Menu.svelte';
   import {
     nodesWithInputs,
@@ -19,6 +21,7 @@
     possibleNodeConnectors
   } from '$constants/nodes';
   import { snapToGrid } from '$lib/snapToGrid';
+  import { rgbToHex } from '$lib/colors';
 
   export let node: Node;
   export let boardPos: Position;
@@ -65,12 +68,14 @@
     prop: string;
     origin: Node;
     target: Node;
+    dataType: DataType;
   }
 
   interface NodeDropper {
     type: NodeType;
     prop: string;
     node: Node;
+    dataTypes: DataType[];
   }
 
   let connectors: NodeConnector[] = [];
@@ -88,13 +93,14 @@
           type: node.type,
           prop,
           origin: originNode,
-          target: node
+          target: node,
         });
       } else {
         drops.push({
           type: node.type,
           prop,
-          node
+          node,
+          dataTypes: prop === 'color' ? ['vec3'] : ['scalar']
         });
       }
     }
@@ -110,7 +116,8 @@
       height: 40 + 20 + 8,
       width: 95 + 8,
       x: 130 + 8,
-      y: 165 + 8
+      y: 165 + 8,
+      color: 200 + 8,
     },
     Circle: {
       radius: 40 + 20 + 8,
@@ -182,15 +189,22 @@
     x={drop.node.editorX + 0}
     y={drop.node.editorY + boxPropConnectors[drop.node.type][drop.prop]}
     createConnection={(val) => nodeUpdate(node.id, { [drop.prop]: val })}
+    dataTypes={drop.dataTypes}
   />
 {/each}
 
 {#if nodesWithOutputs.includes(node.type)}
-  <ConnectorOrigin start={{
-    x: node.editorX + 220, 
-    y: node.editorY + 20
-  }}
-    x={node.editorX + 220} y={node.editorY + 20} {node} {boardPos} />
+  <ConnectorOrigin 
+    start={{
+      x: node.editorX + 220, 
+      y: node.editorY + 20
+    }}
+    x={node.editorX + 220}
+    y={node.editorY + 20}
+    dataType={node.type === 'Color' ? 'vec3' : 'scalar'}
+    {node}
+    {boardPos}
+  />
 {/if}
 
 {#if menuVisible}
@@ -223,7 +237,18 @@
     <span>{node.name}</span>
   </header>
 
-  <section class="node-props">
+  <section class="node-props" style={node.type === 'Color' ? `padding: 0px;` : ''}>
+    {#if node.type === 'Color'}
+      <div class="colorpicker">
+        <HsvPicker 
+          on:colorChange={(rgba) => {
+            const {r, g, b} = rgba.detail;
+            nodeUpdate(node.id, { color: [r, g, b] });
+          }} startColor={rgbToHex(node.rgb[0], node.rgb[1], node.rgb[1])}
+        />
+      </div>
+    {/if}
+
     {#if node.type === 'Box'}
       <NodeEditorNumber
         title="Height"
@@ -244,6 +269,12 @@
         title="y"
         value={node.y}
         onUpdate={(val) => nodeUpdate(node.id, { y: val })}
+      />
+      <NodeEditorBlank
+        title="Color"
+        value={node.color}
+        default={[0, 0, 0]}
+        onUpdate={(val) => nodeUpdate(node.id, { color: val })}
       />
     {/if}
 
@@ -398,5 +429,10 @@
     text-align: center;
     padding: 5px;
     cursor: pointer;
+  }
+
+  .colorpicker {
+    overflow: hidden;
+    height: 214px;
   }
 </style>
